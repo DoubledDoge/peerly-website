@@ -5,7 +5,6 @@
 	"repository": "Unreleased",
 	"description": "Peerly - buy and sell directly with people around you. No middlemen, no businesses.",
 	"license": "MIT",
-	"packageManager": "pnpm@11.0.8",
 	"main": "./src/index.html",
 	"private": true,
 	"version": "1.0.0",
