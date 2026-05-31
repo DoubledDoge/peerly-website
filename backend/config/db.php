@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
-function getDB(): PDO {
+function getDB(): PDO
+{
     static $pdo = null;
 
     if ($pdo !== null) {

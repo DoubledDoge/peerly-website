@@ -1,10 +1,14 @@
 ﻿<?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/db.php';
 
-class User {
-    public static function findById(int $id): ?array {
+// phpcs:ignore PSR1.Classes.ClassDeclaration
+class User
+{
+    public static function findById(int $id): ?array
+    {
         $stmt = getDB()->prepare("
             SELECT id, name, email, role, city, bio, avatar_url,
                    is_active, created_at
@@ -16,7 +20,8 @@ class User {
         return $stmt->fetch() ?: null;
     }
 
-    public static function findByEmail(string $email): ?array {
+    public static function findByEmail(string $email): ?array
+    {
         $stmt = getDB()->prepare("
             SELECT id, name, email, password_hash, role, city,
                    bio, avatar_url, is_active, created_at
@@ -28,14 +33,16 @@ class User {
         return $stmt->fetch() ?: null;
     }
 
-    public static function list(int $page = 1, int $perPage = 20,
-                                string $role = ''): array {
+    public static function list(
+        int $page = 1,
+        int $perPage = 20,
+        string $role = ''
+    ): array {
         $offset = ($page - 1) * $perPage;
         $pdo    = getDB();
 
         $where  = $role ? "WHERE role = ?" : "";
-        $params = $role ? [$role, $perPage, $offset]
-                        : [$perPage, $offset];
+        $params = $role ? [$role, $perPage, $offset] : [$perPage, $offset];
 
         $stmt = $pdo->prepare("
             SELECT id, name, email, role, city, is_active, created_at
@@ -47,16 +54,20 @@ class User {
         $stmt->execute($params);
         $rows = $stmt->fetchAll();
 
-        $countStmt = $pdo->prepare(
-            "SELECT COUNT(*) FROM users {$where}"
-        );
+        $countStmt = $pdo->prepare("SELECT COUNT(*) FROM users {$where}");
         $countStmt->execute($role ? [$role] : []);
         $total = (int) $countStmt->fetchColumn();
 
-        return ['data' => $rows, 'total' => $total, 'page' => $page, 'per_page' => $perPage];
+        return [
+            'data'     => $rows,
+            'total'    => $total,
+            'page'     => $page,
+            'per_page' => $perPage,
+        ];
     }
 
-    public static function getSellerRating(int $sellerId): float {
+    public static function getSellerRating(int $sellerId): float
+    {
         $stmt = getDB()->prepare("
             SELECT ROUND(AVG(rating), 1)
             FROM   reviews
@@ -65,8 +76,12 @@ class User {
         $stmt->execute([$sellerId]);
         return (float) ($stmt->fetchColumn() ?: 0);
     }
-    public static function create(string $name, string $email,
-                                  string $passwordHash): int {
+
+    public static function create(
+        string $name,
+        string $email,
+        string $passwordHash
+    ): int {
         $stmt = getDB()->prepare("
             INSERT INTO users (name, email, password_hash)
             VALUES (?, ?, ?)
@@ -75,7 +90,8 @@ class User {
         return (int) getDB()->lastInsertId();
     }
 
-    public static function update(int $id, array $fields): bool {
+    public static function update(int $id, array $fields): bool
+    {
         $allowed = ['name', 'city', 'bio', 'avatar_url'];
         $set     = [];
         $values  = [];
@@ -87,7 +103,9 @@ class User {
             }
         }
 
-        if (empty($set)) return false;
+        if (empty($set)) {
+            return false;
+        }
 
         $values[] = $id;
         $stmt = getDB()->prepare(
@@ -97,23 +115,22 @@ class User {
         return $stmt->rowCount() > 0;
     }
 
-    public static function setRole(int $id, string $role): bool {
-        $stmt = getDB()->prepare(
-            "UPDATE users SET role = ? WHERE id = ?"
-        );
+    public static function setRole(int $id, string $role): bool
+    {
+        $stmt = getDB()->prepare("UPDATE users SET role = ? WHERE id = ?");
         $stmt->execute([$role, $id]);
         return $stmt->rowCount() > 0;
     }
 
-    public static function setActive(int $id, bool $active): bool {
-        $stmt = getDB()->prepare(
-            "UPDATE users SET is_active = ? WHERE id = ?"
-        );
+    public static function setActive(int $id, bool $active): bool
+    {
+        $stmt = getDB()->prepare("UPDATE users SET is_active = ? WHERE id = ?");
         $stmt->execute([$active ? 1 : 0, $id]);
         return $stmt->rowCount() > 0;
     }
 
-    public static function upgradeToSeller(int $id): void {
+    public static function upgradeToSeller(int $id): void
+    {
         getDB()->prepare("
             UPDATE users SET role = 'seller'
             WHERE  id = ? AND role = 'buyer'

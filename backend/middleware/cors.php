@@ -1,7 +1,9 @@
 ﻿<?php
+
 declare(strict_types=1);
 
-function applyCors(): void {
+function applyCors(): void
+{
     $allowedOrigin = getenv('ALLOWED_ORIGIN') ?: '';
     $apiKey        = getenv('API_KEY') ?: '';
 

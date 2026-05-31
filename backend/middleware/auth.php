@@ -1,9 +1,11 @@
 ﻿<?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/db.php';
 
-function getBearerToken(): ?string {
+function getBearerToken(): ?string
+{
     $header = $_SERVER['HTTP_AUTHORIZATION']
            ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
            ?? '';
@@ -12,12 +14,17 @@ function getBearerToken(): ?string {
         $token = trim(substr($header, 7));
         return $token !== '' ? $token : null;
     }
+
     return null;
 }
 
-function resolveUser(): ?array {
+function resolveUser(): ?array
+{
     $token = getBearerToken();
-    if (!$token) return null;
+
+    if (!$token) {
+        return null;
+    }
 
     $hash = hash('sha256', $token);
     $pdo  = getDB();
@@ -38,17 +45,21 @@ function resolveUser(): ?array {
     return $row ?: null;
 }
 
-function requireAuth(): array {
+function requireAuth(): array
+{
     $user = resolveUser();
+
     if (!$user) {
         http_response_code(401);
         echo json_encode(['error' => 'Authentication required.']);
         exit;
     }
+
     return $user;
 }
 
-function requireRole(string|array $roles): array {
+function requireRole(string|array $roles): array
+{
     $user  = requireAuth();
     $roles = (array) $roles;
 
@@ -57,5 +68,11 @@ function requireRole(string|array $roles): array {
         echo json_encode(['error' => 'Forbidden: insufficient permissions.']);
         exit;
     }
+
     return $user;
+}
+
+function optionalAuth(): ?array
+{
+    return resolveUser();
 }
