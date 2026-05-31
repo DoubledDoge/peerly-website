@@ -1,11 +1,14 @@
 ﻿<?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/User.php';
 
-class Listing {
-    public static function findById(int $id): ?array {
+class Listing
+{
+    public static function findById(int $id): ?array
+    {
         $stmt = getDB()->prepare("
             SELECT l.*,
                    u.name  AS seller_name,
@@ -18,13 +21,17 @@ class Listing {
         ");
         $stmt->execute([$id]);
         $row = $stmt->fetch();
-        if (!$row) return null;
+
+        if (!$row) {
+            return null;
+        }
 
         $row['seller_rating'] = User::getSellerRating((int) $row['seller_id']);
         return $row;
     }
 
-    public static function list(array $filters = []): array {
+    public static function list(array $filters = []): array
+    {
         $page    = max(1, (int) ($filters['page']     ?? 1));
         $perPage = min(50, max(1, (int) ($filters['per_page'] ?? 20)));
         $offset  = ($page - 1) * $perPage;
@@ -55,15 +62,14 @@ class Listing {
             $params[] = $term;
         }
 
-        $orderBy = match($filters['sort'] ?? 'newest') {
+        $orderBy = match ($filters['sort'] ?? 'newest') {
             'price_asc'  => 'l.price ASC',
             'price_desc' => 'l.price DESC',
             default      => 'l.created_at DESC',
         };
 
         $whereStr = implode(' AND ', $where);
-
-        $pdo = getDB();
+        $pdo      = getDB();
 
         $stmt = $pdo->prepare("
             SELECT l.id, l.seller_id, l.title, l.price, l.category,
@@ -91,10 +97,16 @@ class Listing {
         $countStmt->execute($params);
         $total = (int) $countStmt->fetchColumn();
 
-        return ['data' => $rows, 'total' => $total, 'page' => $page, 'per_page' => $perPage];
+        return [
+            'data'     => $rows,
+            'total'    => $total,
+            'page'     => $page,
+            'per_page' => $perPage,
+        ];
     }
 
-    public static function create(int $sellerId, array $data): int {
+    public static function create(int $sellerId, array $data): int
+    {
         $stmt = getDB()->prepare("
             INSERT INTO listings
                 (seller_id, title, description, price, category, photo_url)
@@ -116,9 +128,9 @@ class Listing {
         return $id;
     }
 
-    public static function update(int $id, int $sellerId, array $fields): bool {
-        $allowed = ['title', 'description', 'price', 'category',
-                    'status', 'photo_url'];
+    public static function update(int $id, int $sellerId, array $fields): bool
+    {
+        $allowed = ['title', 'description', 'price', 'category', 'status', 'photo_url'];
         $set     = [];
         $values  = [];
 
@@ -129,21 +141,22 @@ class Listing {
             }
         }
 
-        if (empty($set)) return false;
+        if (empty($set)) {
+            return false;
+        }
 
         $values[] = $id;
         $values[] = $sellerId;
 
-        $stmt = getDB()->prepare("
-            UPDATE listings
-            SET    " . implode(', ', $set) . "
-            WHERE  id = ? AND seller_id = ?
-        ");
+        $stmt = getDB()->prepare(
+            "UPDATE listings SET " . implode(', ', $set) . " WHERE id = ? AND seller_id = ?"
+        );
         $stmt->execute($values);
         return $stmt->rowCount() > 0;
     }
 
-    public static function adminRemove(int $id): bool {
+    public static function adminRemove(int $id): bool
+    {
         $stmt = getDB()->prepare(
             "UPDATE listings SET status = 'removed' WHERE id = ?"
         );
@@ -151,11 +164,11 @@ class Listing {
         return $stmt->rowCount() > 0;
     }
 
-    public static function delete(int $id, int $sellerId): bool {
-        $stmt = getDB()->prepare("
-            UPDATE listings SET status = 'removed'
-            WHERE  id = ? AND seller_id = ?
-        ");
+    public static function delete(int $id, int $sellerId): bool
+    {
+        $stmt = getDB()->prepare(
+            "UPDATE listings SET status = 'removed' WHERE id = ? AND seller_id = ?"
+        );
         $stmt->execute([$id, $sellerId]);
         return $stmt->rowCount() > 0;
     }
