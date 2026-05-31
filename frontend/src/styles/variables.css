@@ -1,0 +1,91 @@
+:root {
+	/* --- Primary Brand Colors --- */
+	--primary-light: oklch(52% 0.15 145);
+	--primary-dark: oklch(62% 0.16 145);
+	--primary-accent: light-dark(var(--primary-light), var(--primary-dark));
+
+	--primary-hover: light-dark(
+		oklch(from var(--primary-light) calc(l - 0.08) c h),
+		oklch(from var(--primary-dark) calc(l + 0.04) c h)
+	);
+	--primary-active: light-dark(
+		oklch(from var(--primary-light) calc(l - 0.16) c h),
+		oklch(from var(--primary-dark) calc(l + 0.08) c h)
+	);
+	--primary-subtle: light-dark(oklch(95% 0.03 145), oklch(22% 0.06 145));
+	--primary-muted: light-dark(oklch(88% 0.06 145), oklch(28% 0.08 145));
+
+	/* --- Semantic Status Colors --- */
+	--color-success: oklch(65% 0.15 150); /* Green */
+	--color-success-bg: oklch(65% 0.15 150 / 15%);
+
+	--color-error: oklch(65% 0.15 25); /* Red */
+	--color-error-dark: oklch(55% 0.2 25);
+	--color-error-bg: oklch(65% 0.15 25 / 15%);
+
+	--color-rating: oklch(80% 0.15 85); /* Yellow/Gold for stars */
+
+	/* --- Role Badges --- */
+	--color-admin-text: oklch(65% 0.15 45);
+	--color-admin-bg: oklch(75% 0.15 45 / 15%);
+	--color-admin-border: oklch(75% 0.15 45 / 30%);
+
+	--color-mod-text: oklch(60% 0.15 300);
+	--color-mod-bg: oklch(70% 0.15 300 / 15%);
+	--color-mod-border: oklch(70% 0.15 300 / 30%);
+
+	/* --- Surface & Backgrounds --- */
+	--bg-colour: light-dark(oklch(98.5% 0.002 145), oklch(14% 0.005 145));
+	--bg-subtle: light-dark(oklch(96% 0.004 145), oklch(17% 0.006 145));
+	--bg-muted: light-dark(oklch(93% 0.005 145), oklch(20% 0.007 145));
+	--surface: light-dark(oklch(100% 0 0), oklch(18% 0.006 145));
+
+	/* --- Borders --- */
+	--border-colour: light-dark(oklch(88% 0.008 145), oklch(28% 0.01 145));
+	--border-subtle: light-dark(oklch(92% 0.005 145), oklch(24% 0.007 145));
+
+	/* --- Typography Colors --- */
+	--text-colour: light-dark(oklch(18% 0.01 145), oklch(93% 0.005 145));
+	--text-muted: light-dark(oklch(45% 0.01 145), oklch(68% 0.008 145));
+	--text-subtle: light-dark(oklch(62% 0.008 145), oklch(50% 0.008 145));
+
+	/* --- Skeletons --- */
+	--skeleton-base: light-dark(oklch(92% 0.004 145), oklch(22% 0.006 145));
+	--skeleton-shine: light-dark(oklch(97% 0.002 145), oklch(26% 0.007 145));
+
+	/* --- Shadows --- */
+	--shadow-sm: 0 1px 2px oklch(0% 0 0 / 6%);
+	--shadow-md: 0 4px 6px oklch(0% 0 0 / 8%), 0 2px 4px oklch(0% 0 0 / 5%);
+	--shadow-xl: 0 20px 25px oklch(0% 0 0 / 8%), 0 8px 10px oklch(0% 0 0 / 4%);
+
+	/* --- Typography Families --- */
+	--font-sans: "Inter Variable", -apple-system, sans-serif;
+	--font-mono: "JetBrains Mono Variable", monospace;
+
+	/* --- Spacing & Layout --- */
+	--header-height: 4rem;
+	--max-width: 72rem;
+	--padding-x: 1.5rem;
+
+	/* --- Radii --- */
+	--radius-sm: 0.25rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 0.75rem;
+	--radius-xl: 1rem;
+	--radius-2xl: 1.5rem;
+	--radius-full: 9999px;
+
+	/* --- Z-Indices --- */
+	--z-sticky: 50;
+	--z-overlay: 100;
+	--z-modal: 1000;
+
+	/* --- Misc --- */
+	--animation-angle: -90deg;
+}
+
+@media (width <= 768px) {
+	:root {
+		--padding-x: 1rem;
+	}
+}

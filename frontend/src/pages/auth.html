@@ -1,0 +1,75 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Sign In or Register - Peerly</title>
+    <script src="../utils/theme-init.js"></script>
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/auth.css" />
+</head>
+<body>
+<header id="navbar"></header>
+
+<main class="auth-page container">
+    <section class="auth-container">
+        <div class="auth-tabs" role="tablist">
+            <button role="tab" type="button" aria-selected="true" id="tab-login" class="auth-tab">Sign In</button>
+            <button role="tab" type="button" aria-selected="false" id="tab-register" class="auth-tab">Create Account</button>
+        </div>
+
+        <div class="auth-forms-wrapper">
+            <form id="form-login" class="auth-form" aria-labelledby="tab-login" data-active="true" novalidate>
+                <div class="auth-global-error" id="login-global-error"></div>
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" name="email" autocomplete="email" />
+                    <span class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" autocomplete="current-password" />
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="auth-forgot-password">
+                    <button type="button" id="btn-forgot-password" class="btn-text-link">
+                        Forgot your password?
+                    </button>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg auth-submit">Sign In</button>
+
+                <button type="button" id="btn-debug-admin" class="btn btn-outline btn-lg auth-submit btn-debug">
+                    🛠️ Debug: Login as Admin
+                </button>
+            </form>
+
+            <form id="form-register" class="auth-form" aria-labelledby="tab-register" data-active="false" novalidate>
+                <div class="auth-global-error" id="register-global-error"></div>
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" name="name" autocomplete="name" />
+                    <span class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" name="email" autocomplete="email" />
+                    <span class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" autocomplete="new-password" />
+                    <span class="error-message"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg auth-submit">Create Account</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer id="footer"></footer>
+
+<script type="module" src="auth.js"></script>
+</body>
+</html>

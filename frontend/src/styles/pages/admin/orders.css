@@ -1,0 +1,38 @@
+﻿/* src/styles/pages/admin/orders.css */
+
+.status-select {
+	padding: 0.25rem 0.5rem;
+	border: 1px solid var(--border-colour);
+	border-radius: var(--radius-sm);
+	background-color: var(--bg-colour);
+	color: var(--text-colour);
+	font-size: 0.875rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.status-select[data-status="pending"] {
+	color: oklch(65% 0.15 45);
+	border-color: oklch(75% 0.15 45 / 30%);
+	background-color: oklch(75% 0.15 45 / 10%);
+}
+.status-select[data-status="processing"] {
+	color: var(--primary-accent);
+	border-color: var(--primary-subtle);
+	background-color: var(--primary-subtle);
+}
+.status-select[data-status="shipped"] {
+	color: oklch(60% 0.15 300);
+	border-color: oklch(70% 0.15 300 / 30%);
+	background-color: oklch(70% 0.15 300 / 10%);
+}
+.status-select[data-status="delivered"] {
+	color: var(--color-success);
+	border-color: var(--color-success-bg);
+	background-color: var(--color-success-bg);
+}
+.status-select[data-status="cancelled"] {
+	color: var(--color-error);
+	border-color: var(--color-error-bg);
+	background-color: var(--color-error-bg);
+}

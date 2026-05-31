@@ -1,0 +1,76 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Browse Listings - Peerly</title>
+    <script src="../utils/theme-init.js"></script>
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/listings.css" />
+</head>
+<body>
+<header id="navbar"></header>
+
+<main class="listings-page container">
+
+    <div class="listings-header">
+        <div id="search-bar-container"></div>
+    </div>
+
+    <div class="listings-layout">
+        <aside class="listings-sidebar">
+            <div class="filter-group">
+                <h3>Category</h3>
+                <div class="radio-list">
+                    <label><input type="radio" name="category" value="all" checked> All Categories</label>
+                    <label><input type="radio" name="category" value="electronics"> Electronics</label>
+                    <label><input type="radio" name="category" value="clothing"> Clothing</label>
+                    <label><input type="radio" name="category" value="furniture"> Furniture</label>
+                    <label><input type="radio" name="category" value="books"> Books</label>
+                    <label><input type="radio" name="category" value="other"> Other</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Availability</h3>
+                <div class="radio-list">
+                    <label><input type="radio" name="status" value="all" checked> Any Status</label>
+                    <label><input type="radio" name="status" value="active">Available Only</label>
+                    <label><input type="radio" name="status" value="sold">Sold Items</label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Minimum Rating</h3>
+                <div class="radio-list">
+                    <label><input type="radio" name="rating" value="all" checked />Any Rating</label>
+                    <label><input type="radio" name="rating" value="4" />4 Stars & Up</label>
+                    <label><input type="radio" name="rating" value="3" />3 Stars & Up</label>
+                    <label><input type="radio" name="rating" value="2" />2 Stars & Up</label>
+                </div>
+            </div>
+        </aside>
+
+        <section class="listings-main">
+            <div class="grid-header">
+                <p id="results-count">Loading results...</p>
+                <select id="sort-select" class="form-select" aria-label="Sort by">
+                    <option value="newest" selected>Newest First</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
+            </div>
+
+            <div id="listings-grid" class="listings-grid">
+            </div>
+
+            <nav id="pagination-container" class="pagination" aria-label="Pagination Navigation"></nav>
+        </section>
+    </div>
+</main>
+
+<footer id="footer"></footer>
+<script type="module" src="listings.js"></script>
+</body>
+</html>

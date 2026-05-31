@@ -1,0 +1,34 @@
+﻿.listing-preview {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.listing-thumb {
+	width: 48px;
+	height: 48px;
+	border-radius: var(--radius-sm);
+	background-color: var(--bg-muted);
+	object-fit: cover;
+}
+
+.status-badge {
+	font-size: 0.75rem;
+	padding: 0.25rem 0.75rem;
+	border-radius: var(--radius-full);
+	text-transform: uppercase;
+	font-weight: 700;
+}
+
+.status-badge.active {
+	background-color: var(--color-success-bg);
+	color: var(--color-success);
+}
+.status-badge.sold {
+	background-color: var(--bg-muted);
+	color: var(--text-muted);
+}
+.status-badge.deleted {
+	background-color: var(--color-error-bg);
+	color: var(--color-error);
+}

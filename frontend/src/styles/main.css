@@ -1,0 +1,12 @@
+@layer variables, property, globals, components;
+
+@import "./variables.css" layer(variables);
+@import "./property.css" layer(property);
+@import "./globals.css" layer(globals);
+@import "./components/navbar.css" layer(components);
+@import "./components/search-bar.css" layer(components);
+@import "./components/listing-card.css" layer(components);
+@import "./components/footer.css" layer(components);
+@import "./components/order-summary.css" layer(components);
+@import "./components/star-rating.css" layer(components);
+@import "./components/admin-table.css" layer(components);

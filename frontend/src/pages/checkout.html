@@ -1,0 +1,48 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Checkout - Peerly</title>
+    <script src="../utils/theme-init.js"></script>
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/checkout.css" />
+</head>
+<body>
+<header id="navbar"></header>
+<main class="checkout-page container">
+    <h1>Checkout</h1>
+
+    <div class="checkout-grid">
+        <section class="checkout-details">
+            <form id="checkout-form">
+                <h2>Delivery Method</h2>
+                <div class="form-group">
+                    <label><input type="radio" name="delivery" value="shipping" checked> Ship to my address</label>
+                    <label><input type="radio" name="delivery" value="meetup"> Arrange local meetup</label>
+                </div>
+
+                <div id="address-fields" class="form-group">
+                    <label for="address">Shipping Address</label>
+                    <textarea name="address" id="address" rows="3" required placeholder="Enter your full delivery address..."></textarea>
+                </div>
+
+                <h2>Payment Information</h2>
+                <div class="mock-payment-banner" style="background: var(--primary-subtle); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+                    <p style="font-size: 0.875rem; color: var(--primary-accent);">
+                        <strong>Demo Mode:</strong> No real bank details required. Clicking 'Place Order' will simulate a successful transaction.
+                    </p>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg full-width" id="btn-place-order">Place Order</button>
+            </form>
+        </section>
+
+        <aside id="order-summary-mount"></aside>
+    </div>
+</main>
+<footer id="footer"></footer>
+<script type="module" src="checkout.js"></script>
+</body>
+</html>

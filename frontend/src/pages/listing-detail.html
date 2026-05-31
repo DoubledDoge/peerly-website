@@ -1,0 +1,120 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Listing Detail - Peerly</title>
+    <script src="../utils/theme-init.js"></script>
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/listing-detail.css" />
+</head>
+<body>
+<header id="navbar"></header>
+
+<main class="detail-page container">
+    <section id="error-state" class="error-state" style="display: none;">
+        <h2>Item Not Found</h2>
+        <p>This listing may have been removed or doesn’t exist.</p>
+        <a href="../pages/listings.html" class="btn btn-primary">Back to Browse</a>
+    </section>
+
+    <article id="product-view" class="product-layout" style="display: none;">
+
+        <div class="product-gallery">
+            <div class="main-image-container">
+                <img id="detail-image" src="" alt="Product" />
+                <span id="detail-status" class="status-badge"></span>
+            </div>
+        </div>
+
+        <div class="product-info">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="../pages/listings.html">Browse</a> <span aria-hidden="true">/</span>
+                <span id="detail-category" class="category-text"></span>
+            </nav>
+
+            <h1 id="detail-title"></h1>
+            <p id="detail-price" class="price-text"></p>
+
+            <div>
+                <button type="button" id="btn-add-to-cart" class="btn btn-primary btn-lg">Add to Cart</button>
+            </div>
+
+            <div class="description-section">
+                <h2>Description</h2>
+                <p id="detail-description"></p>
+
+                <div class="report-section">
+                    <button type="button" id="btn-report-listing" class="btn btn-ghost btn-sm btn-report">
+                        <img src="../assets/icons/flag.svg" alt="Flag Icon" aria-hidden="true"/> Report this listing
+                    </button>
+
+                    <div id="report-form-container" class="report-form-wrapper" style="display: none;">
+                        <label for="report-reason" class="report-form-label">Why are you reporting this listing?</label>
+                        <textarea id="report-reason" rows="3" class="report-textarea" placeholder="e.g., Suspicious activity, offensive content, fake item..."></textarea>
+
+                        <div class="report-actions">
+                            <button type="button" id="btn-cancel-report" class="btn btn-ghost btn-sm">Cancel</button>
+                            <button type="button" id="btn-submit-report" class="btn btn-primary btn-sm btn-danger">Submit Report</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="seller-section">
+                <h2>About the Seller</h2>
+                <div class="seller-details">
+                    <span id="seller-name" class="seller-name"></span>
+                    <div class="seller-location">
+                        <img src="../assets/icons/map-pin.svg" class="inline-icon icon-sm" alt="Pin Icon" aria-hidden="true">
+                        <span id="seller-city"></span> </div>
+                    <div class="seller-rating" id="seller-rating-container"></div>
+                </div>
+                <a href="#" id="btn-contact-seller" class="btn btn-outline btn-sm">Contact</a>
+                </div>
+
+            <p id="seller-bio" class="seller-bio-box"></p>
+            </div>
+
+            <div class="seller-section">
+            </div>
+
+            <div class="reviews-section">
+                <h2>Item Reviews</h2>
+
+                <div id="reviews-list" class="reviews-list">
+                </div>
+
+                <form id="review-form" class="review-form">
+                    <h3>Leave a Review</h3>
+                    <div class="form-row" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="review-rating">Rating (1-5)</label>
+                            <select id="review-rating" class="form-select" required>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Good</option>
+                                <option value="3">3 - Okay</option>
+                                <option value="2">2 - Poor</option>
+                                <option value="1">1 - Terrible</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 2;">
+                            <label for="review-name">Your Name</label>
+                            <input type="text" id="review-name" required placeholder="John Doe" />
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label for="review-comment">Comment</label>
+                        <textarea id="review-comment" rows="3" required placeholder="What did you think of this item?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-outline">Submit Review</button>
+                </form>
+            </div>
+    </article>
+</main>
+
+<footer id="footer"></footer>
+<script type="module" src="listing-detail.js"></script>
+</body>
+</html>

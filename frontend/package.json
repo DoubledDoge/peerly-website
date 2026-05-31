@@ -1,0 +1,27 @@
+{
+	"name": "peerly-frontend",
+	"author": "Dihan Britz",
+	"readme": "../README.md",
+	"repository": "Unreleased",
+	"description": "Peerly - buy and sell directly with people around you. No middlemen, no businesses.",
+	"license": "MIT",
+	"packageManager": "pnpm@11.0.8",
+	"main": "./src/index.html",
+	"private": true,
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "biome lint ./src",
+		"lint:fix": "biome lint --write ./src",
+		"format": "biome format --write ./src",
+		"check": "biome check ./src",
+		"check:fix": "biome check --write ./src"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.16",
+		"vite": "^8.0.14"
+	}
+}

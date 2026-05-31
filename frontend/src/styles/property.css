@@ -1,0 +1,11 @@
+@property --primary-hover {
+	syntax: "<color>";
+	initial-value: oklch(44% 0.15 145);
+	inherits: true;
+}
+
+@property --primary-active {
+	syntax: "<color>";
+	initial-value: oklch(36% 0.15 145);
+	inherits: true;
+}

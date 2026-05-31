@@ -1,0 +1,226 @@
+﻿.profile-page {
+	padding-block: 4rem;
+}
+
+.profile-layout {
+	display: flex;
+	flex-direction: column;
+	gap: 4rem;
+	max-width: 800px;
+	margin-inline: auto;
+}
+
+.profile-container {
+	background-color: var(--surface);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-2xl);
+	box-shadow: var(--shadow-sm);
+	padding: 3rem;
+}
+
+.profile-header {
+	margin-block-end: 2.5rem;
+	border-bottom: 1px solid var(--border-subtle);
+	padding-bottom: 1.5rem;
+
+	h1 {
+		font-size: 1.75rem;
+		color: var(--text-colour);
+		margin-block-end: 0.5rem;
+	}
+}
+
+.profile-title-row {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	flex-wrap: wrap;
+}
+
+.role-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.25rem 0.75rem;
+	border-radius: var(--radius-full);
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	user-select: none;
+}
+
+.role-badge.admin {
+	background-color: oklch(75% 0.15 45 / 15%);
+	color: oklch(65% 0.15 45);
+	border: 1px solid oklch(75% 0.15 45 / 30%);
+}
+
+.role-badge.moderator {
+	background-color: oklch(70% 0.15 300 / 15%);
+	color: oklch(60% 0.15 300);
+	border: 1px solid oklch(70% 0.15 300 / 30%);
+}
+
+.profile-form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.form-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1.5rem;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+
+	label {
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--text-colour);
+	}
+
+	input,
+	textarea,
+	.form-select {
+		padding: 0.75rem 1rem;
+		border: 1px solid var(--border-colour);
+		border-radius: var(--radius-md);
+		background-color: var(--bg-colour);
+		color: var(--text-colour);
+		font-size: 1rem;
+		transition:
+			border-color 150ms ease,
+			box-shadow 150ms ease;
+		font-family: inherit;
+
+		&:focus {
+			outline: none;
+			border-color: var(--primary-accent);
+			box-shadow: 0 0 0 3px var(--primary-subtle);
+		}
+	}
+
+	textarea {
+		resize: vertical;
+		min-height: 100px;
+	}
+}
+
+.profile-actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-block-start: 1rem;
+	padding-block-start: 1.5rem;
+	border-top: 1px solid var(--border-subtle);
+}
+
+/* --- New User Listings Section --- */
+
+.user-listings-section {
+	.section-header {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		border-bottom: 1px solid var(--border-subtle);
+		padding-bottom: 1.5rem;
+		margin-bottom: 2rem;
+
+		h2 {
+			font-size: 1.5rem;
+			color: var(--text-colour);
+			margin-block-end: 0.25rem;
+		}
+
+		p {
+			color: var(--text-muted);
+			font-size: 0.95rem;
+		}
+	}
+}
+
+.user-listings-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 1.5rem;
+}
+
+/* Reusing a slimmed down version of our preview card for the profile */
+.profile-product-card {
+	background-color: var(--surface);
+	border: 1px solid var(--border-subtle);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+
+	.product-media {
+		height: 140px;
+		background-color: var(--bg-muted);
+	}
+
+	.product-details {
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+
+		h3 {
+			font-size: 0.95rem;
+			font-weight: 500;
+			color: var(--text-colour);
+		}
+
+		.product-price {
+			font-size: 0.875rem;
+			font-weight: 600;
+			color: var(--primary-accent);
+		}
+
+		.product-status {
+			margin-block-start: 0.5rem;
+			font-size: 0.75rem;
+			font-weight: 600;
+			text-transform: uppercase;
+			color: var(--text-subtle);
+
+			&.active {
+				color: oklch(65% 0.15 150);
+			} /* Green */
+			&.sold {
+				color: oklch(65% 0.15 25);
+			} /* Red */
+		}
+	}
+}
+
+@media (width <= 640px) {
+	.profile-container {
+		padding: 2rem 1.5rem;
+	}
+
+	.form-row {
+		grid-template-columns: 1fr;
+	}
+
+	.profile-actions {
+		flex-direction: column-reverse;
+		gap: 1rem;
+
+		button {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+
+	.user-listings-section .section-header {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+}

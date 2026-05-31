@@ -1,0 +1,85 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Post a Listing - Peerly</title>
+    <script src="../utils/theme-init.js"></script>
+    <link rel="stylesheet" href="../styles/main.css" />
+    <link rel="stylesheet" href="../styles/pages/sell.css" />
+</head>
+<body>
+<header id="navbar"></header>
+
+<main class="sell-page container">
+    <section class="sell-container">
+        <header class="sell-header">
+            <h1 id="sell-heading">Post a new listing</h1>
+            <p>Add a photo, set a price, and start selling.</p>
+        </header>
+
+        <form id="sell-form" aria-labelledby="sell-heading" class="sell-form">
+
+            <div class="form-group">
+                <label>Product Photo</label>
+                <div class="photo-upload-zone" id="photo-dropzone" style="cursor: pointer; position: relative;">
+                    <input type="file" id="listing-photo" accept="image/*" hidden required />
+
+                    <div class="upload-prompt" id="upload-prompt">
+                        <img src="../assets/icons/camera.svg" alt="Camera Icon" class="inline-icon" aria-hidden="true"/>
+                        <span>Click or drag a photo here</span>
+                    </div>
+
+                    <div class="photo-preview" id="photo-preview" hidden>
+                        <img src="" alt="Product Preview" id="preview-img" title="Click to change photo" hidden />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="listing-title">Listing Title</label>
+                <input type="text" id="listing-title" name="title" class="form-control" required placeholder="e.g., Sony WH-1000XM4 Headphones" />
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="listing-price">Price</label>
+                    <div class="currency-input-wrapper">
+                        <span class="currency-symbol" id="currency-symbol">R</span>
+                        <input type="number" id="listing-price" name="price" min="0" step="0.01" required placeholder="0.00" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="listing-category">Category</label>
+                    <select id="listing-category" name="category" class="form-control form-select" required>
+                        <option value="">Select a category...</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="furniture">Furniture</option>
+                        <option value="books">Books</option>
+                        <option value="sports">Sports & Outdoors</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="listing-description">Description</label>
+                <textarea id="listing-description" name="description" class="form-control" rows="5" required placeholder="Describe the condition, features, and reason for selling..."></textarea>
+            </div>
+
+            <div class="sell-actions">
+                <button type="submit" class="btn btn-primary btn-lg">Post Listing</button>
+                <a href="../pages/profile.html" class="btn btn-ghost btn-lg">Cancel</a>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer id="footer"></footer>
+
+<script type="module" src="sell.js"></script>
+</body>
+</html>
