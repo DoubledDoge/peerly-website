@@ -27,3 +27,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Explicitly ignore files
+/frontend/node_modules/@biomejs/biome/
+/frontend/node_modules/.modules.yaml
+/frontend/node_modules/.pnpm-workspace-state-v1.json
+/frontend/node_modules/.bin/biome
+/frontend/node_modules/.bin/biome.CMD
+/frontend/node_modules/.bin/biome.ps1
+/frontend/node_modules/.pnpm/lock.yaml
+/frontend/node_modules/.bin/vite
+/frontend/node_modules/vite/
+/frontend/node_modules/.bin/vite.CMD
+/frontend/node_modules/.bin/vite.ps1
