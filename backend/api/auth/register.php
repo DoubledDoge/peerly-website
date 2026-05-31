@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 declare(strict_types=1);
 
@@ -33,7 +33,8 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 if (!preg_match(
     '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\':"\\\\|,.<>\/?]).{8,}$/',
     $password
-)) {
+)
+) {
     $errors['password'] =
         'Password must be 8+ characters with uppercase, lowercase, number, and symbol.';
 }
