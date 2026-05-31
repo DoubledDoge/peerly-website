@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/middleware/cors.php';
 
 applyCors();
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET'
+if (
+    $_SERVER['REQUEST_METHOD'] === 'GET'
     && ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php')
 ) {
     http_response_code(200);

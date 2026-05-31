@@ -1,11 +1,13 @@
 ﻿<?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/db.php';
 
-class Order {
-
-    public static function findById(int $id): ?array {
+class Order
+{
+    public static function findById(int $id): ?array
+    {
         $stmt = getDB()->prepare("
             SELECT o.*,
                    l.title      AS listing_title,
@@ -22,7 +24,8 @@ class Order {
         return $stmt->fetch() ?: null;
     }
 
-    public static function listForUser(int $buyerId): array {
+    public static function listForUser(int $buyerId): array
+    {
         $stmt = getDB()->prepare("
             SELECT o.id, o.status, o.price_at_sale, o.created_at,
                    l.title     AS listing_title,
@@ -36,7 +39,9 @@ class Order {
         return $stmt->fetchAll();
     }
 
-    public static function listAll(int $page = 1, int $perPage = 50): array {
+
+    public static function listAll(int $page = 1, int $perPage = 50): array
+    {
         $offset = ($page - 1) * $perPage;
         $pdo    = getDB();
 
@@ -57,8 +62,11 @@ class Order {
         return $stmt->fetchAll();
     }
 
-    public static function create(int $buyerId, int $listingId,
-                                  float $priceAtSale): int {
+    public static function create(
+        int $buyerId,
+        int $listingId,
+        float $priceAtSale
+    ): int {
         $pdo = getDB();
         $pdo->beginTransaction();
 
@@ -82,9 +90,12 @@ class Order {
         }
     }
 
-    public static function updateStatus(int $id, string $status): bool {
+    public static function updateStatus(int $id, string $status): bool
+    {
         $allowed = ['pending', 'confirmed', 'completed', 'cancelled'];
-        if (!in_array($status, $allowed, true)) return false;
+        if (!in_array($status, $allowed, true)) {
+            return false;
+        }
 
         $stmt = getDB()->prepare(
             "UPDATE orders SET status = ? WHERE id = ?"

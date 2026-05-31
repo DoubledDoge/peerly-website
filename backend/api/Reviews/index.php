@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../middleware/cors.php';
@@ -35,10 +36,21 @@ if ($method === 'POST') {
     $comment   = trim($body['comment']      ?? '');
 
     $errors = [];
-    if (!$listingId)                       $errors[] = 'listing_id is required.';
-    if (!$sellerId)                        $errors[] = 'seller_id is required.';
-    if ($rating < 1 || $rating > 5)       $errors[] = 'Rating must be between 1 and 5.';
-    if (strlen($comment) < 5)             $errors[] = 'Comment must be at least 5 characters.';
+    if (!$listingId) {
+        $errors[] = 'listing_id is required.';
+    }
+
+    if (!$sellerId) {
+        $errors[] = 'seller_id is required.';
+    }
+
+    if ($rating < 1 || $rating > 5) {
+        $errors[] = 'Rating must be between 1 and 5.';
+    }
+
+    if (strlen($comment) < 5) {
+        $errors[] = 'Comment must be at least 5 characters.';
+    }
 
     if (!empty($errors)) {
         http_response_code(422);

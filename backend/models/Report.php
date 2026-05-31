@@ -1,12 +1,16 @@
 ﻿<?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/db.php';
 
-class Report {
-
-    public static function list(string $status = 'open',
-                                int $page = 1, int $perPage = 20): array {
+class Report
+{
+    public static function list(
+        string $status = 'open',
+        int $page = 1,
+        int $perPage = 20
+    ): array {
         $offset = ($page - 1) * $perPage;
         $pdo    = getDB();
 
@@ -38,8 +42,12 @@ class Report {
         return ['data' => $rows, 'total' => $total, 'page' => $page];
     }
 
-    public static function create(int $reporterId, int $listingId,
-                                  string $reason, string $details = ''): int {
+    public static function create(
+        int $reporterId,
+        int $listingId,
+        string $reason,
+        string $details = ''
+    ): int {
         $stmt = getDB()->prepare("
             INSERT INTO reports (reporter_id, listing_id, reason, details)
             VALUES (?, ?, ?, ?)
@@ -48,10 +56,15 @@ class Report {
         return (int) getDB()->lastInsertId();
     }
 
-    public static function resolve(int $id, int $resolvedBy,
-                                   string $status): bool {
+    public static function resolve(
+        int $id,
+        int $resolvedBy,
+        string $status
+    ): bool {
         $allowed = ['reviewed', 'resolved', 'dismissed'];
-        if (!in_array($status, $allowed, true)) return false;
+        if (!in_array($status, $allowed, true)) {
+            return false;
+        }
 
         $stmt = getDB()->prepare("
             UPDATE reports

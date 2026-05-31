@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 require_once __DIR__ . '/../config/db.php';
 
-class Review {
-
-    public static function listForListing(int $listingId): array {
+class Review
+{
+    public static function listForListing(int $listingId): array
+    {
         $stmt = getDB()->prepare("
             SELECT r.id, r.rating, r.comment, r.created_at,
                    u.name AS reviewer_name
@@ -18,7 +20,8 @@ class Review {
         return $stmt->fetchAll();
     }
 
-    public static function exists(int $reviewerId, int $listingId): bool {
+    public static function exists(int $reviewerId, int $listingId): bool
+    {
         $stmt = getDB()->prepare("
             SELECT 1 FROM reviews
             WHERE reviewer_id = ? AND listing_id = ?
@@ -28,9 +31,13 @@ class Review {
         return (bool) $stmt->fetchColumn();
     }
 
-    public static function create(int $reviewerId, int $listingId,
-                                  int $sellerId, int $rating,
-                                  string $comment): int {
+    public static function create(
+        int $reviewerId,
+        int $listingId,
+        int $sellerId,
+        int $rating,
+        string $comment
+    ): int {
         $stmt = getDB()->prepare("
             INSERT INTO reviews
                 (reviewer_id, listing_id, seller_id, rating, comment)
@@ -40,7 +47,8 @@ class Review {
         return (int) getDB()->lastInsertId();
     }
 
-    public static function findById(int $id): ?array {
+    public static function findById(int $id): ?array
+    {
         $stmt = getDB()->prepare("
             SELECT r.id, r.rating, r.comment, r.created_at,
                    u.name AS reviewer_name
