@@ -6,12 +6,10 @@ import { showToast } from "@components/toast.js";
 import { cartService } from "@services/cart-service.js";
 import { listingsService } from "@services/listings-service.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
-	initNavbar();
-	initFooter();
-	initSearchBar("search-bar-container");
-	await initListingsPage();
-});
+initNavbar();
+initFooter();
+initSearchBar("search-bar-container");
+await initListingsPage();
 
 async function initListingsPage() {
 	const grid = document.getElementById("listings-grid");

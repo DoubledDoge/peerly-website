@@ -8,12 +8,10 @@ import { api } from "@utils/api.js";
 import { requireRole } from "@utils/auth-guard.js";
 import { url } from "@utils/base.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
-	await requireRole(["admin", "moderator"]);
-	initNavbar();
-	initFooter();
-	await initAdminListingsTable();
-});
+await requireRole(["admin", "moderator"]);
+initNavbar();
+initFooter();
+await initAdminListingsTable();
 
 async function initAdminListingsTable() {
 	const containerId = "listings-container";

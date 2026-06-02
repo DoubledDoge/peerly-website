@@ -9,13 +9,11 @@ import {
 	isValidPassword,
 } from "@utils/validators.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-	redirectIfAuthenticated();
-	initNavbar();
-	initFooter();
-	initAuthTabs();
-	initFormValidation();
-});
+redirectIfAuthenticated();
+initNavbar();
+initFooter();
+initAuthTabs();
+initFormValidation();
 
 function initAuthTabs() {
 	const tabLogin = document.getElementById("tab-login");

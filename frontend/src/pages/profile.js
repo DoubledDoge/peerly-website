@@ -8,12 +8,10 @@ import { api } from "@utils/api.js";
 import { requireAuth } from "@utils/auth-guard.js";
 import { url } from "@utils/base.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
-	requireAuth();
-	initNavbar();
-	initFooter();
-	await initProfilePage();
-});
+requireAuth();
+initNavbar();
+initFooter();
+await initProfilePage();
 
 async function initProfilePage() {
 	const user = authService.getUser();

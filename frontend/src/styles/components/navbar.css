@@ -193,6 +193,10 @@ button[aria-controls="primary-navigation"] {
 	}
 }
 
+#navbar:empty {
+	min-height: 70px;
+}
+
 @media (width <= 767px) {
 	.site-navbar {
 		.mobile-toggle {

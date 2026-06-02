@@ -7,12 +7,10 @@ import { api } from "@utils/api.js";
 import { requireAuth } from "@utils/auth-guard.js";
 import { url } from "@utils/base.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-	requireAuth();
-	initNavbar();
-	initFooter();
-	initCheckout();
-});
+requireAuth();
+initNavbar();
+initFooter();
+initCheckout();
 
 function initCheckout() {
 	const cartItems = cartService.getCart();

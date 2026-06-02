@@ -11,10 +11,7 @@ import { url } from "@utils/base.js";
 
 initNavbar();
 initFooter();
-
-document.addEventListener("DOMContentLoaded", async () => {
-	await initProductDetail();
-});
+await initProductDetail();
 
 async function initProductDetail() {
 	const params = new URLSearchParams(window.location.search);

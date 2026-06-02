@@ -5,12 +5,10 @@ import { showToast } from "@components/toast.js";
 import { api } from "@utils/api.js";
 import { requireRole } from "@utils/auth-guard.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
-	await requireRole(["admin", "moderator"]);
-	initNavbar();
-	initFooter();
-	await initReportsTable();
-});
+await requireRole(["admin", "moderator"]);
+initNavbar();
+initFooter();
+await initReportsTable();
 
 async function initReportsTable() {
 	const containerId = "reports-container";

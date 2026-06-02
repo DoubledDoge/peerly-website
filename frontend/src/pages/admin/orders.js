@@ -6,12 +6,10 @@ import { currencyService } from "@services/currency-service.js";
 import { api } from "@utils/api.js";
 import { requireRole } from "@utils/auth-guard.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
-	await requireRole(["admin", "moderator"]);
-	initNavbar();
-	initFooter();
-	await initOrdersTable();
-});
+await requireRole(["admin", "moderator"]);
+initNavbar();
+initFooter();
+await initOrdersTable();
 
 async function initOrdersTable() {
 	const containerId = "orders-container";

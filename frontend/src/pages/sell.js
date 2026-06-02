@@ -5,12 +5,10 @@ import { listingsService } from "@services/listings-service.js";
 import { requireAuth } from "@utils/auth-guard.js";
 import { url } from "@utils/base.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-	requireAuth();
-	initNavbar();
-	initFooter();
-	initSellForm();
-});
+requireAuth();
+initNavbar();
+initFooter();
+initSellForm();
 
 function initSellForm() {
 	const form = document.getElementById("sell-form");

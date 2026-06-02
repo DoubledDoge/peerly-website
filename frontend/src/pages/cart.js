@@ -1,5 +1,4 @@
-﻿// ─── cart.js ────────────────────────────────────────────────────────────────
-import { initFooter } from "@components/footer.js";
+﻿import { initFooter } from "@components/footer.js";
 import { initNavbar } from "@components/navbar.js";
 import { renderOrderSummary } from "@components/order-summary.js";
 import { showToast } from "@components/toast.js";
@@ -10,10 +9,7 @@ import { requireAuth } from "@utils/auth-guard.js";
 initNavbar();
 initFooter();
 requireAuth();
-
-document.addEventListener("DOMContentLoaded", () => {
-	initCartPage();
-});
+initCartPage();
 
 function initCartPage() {
 	const emptyState = document.getElementById("empty-cart-state");

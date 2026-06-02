@@ -6,12 +6,10 @@ import { authService } from "@services/auth-service.js";
 import { api } from "@utils/api.js";
 import { requireRole } from "@utils/auth-guard.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
-	await requireRole(["admin"]);
-	initNavbar();
-	initFooter();
-	await initUsersTable();
-});
+await requireRole(["admin"]);
+initNavbar();
+initFooter();
+await initUsersTable();
 
 async function initUsersTable() {
 	const containerId = "users-container";
