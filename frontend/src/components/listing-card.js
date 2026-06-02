@@ -118,3 +118,26 @@ export async function loadFeaturedListings() {
 		`;
 	}
 }
+
+export async function loadHeroPreviewListings() {
+	const grid = document.getElementById("hero-preview-grid");
+	if (!grid) return;
+
+	grid.innerHTML = `<p class="listings-loading">Loading previews...</p>`;
+
+	try {
+		const result = await listingsService.getAllListings({
+			status: "active",
+			per_page: 10,
+		});
+
+		let listings = result.data ?? [];
+
+		listings = listings.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+		renderListingGrid("hero-preview-grid", listings);
+	} catch (error) {
+		console.error("Failed to load preview listings:", error);
+		grid.innerHTML = ``;
+	}
+}
