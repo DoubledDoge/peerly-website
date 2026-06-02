@@ -5,7 +5,18 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <title>Manage Listings - Peerly</title>
-    <script src="../../utils/theme-init.js"></script>
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
     <link href="../../styles/main.css" rel="stylesheet" />
     <link href="../../styles/pages/admin/listings.css" rel="stylesheet" />
 </head>
