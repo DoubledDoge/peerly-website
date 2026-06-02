@@ -166,15 +166,30 @@ async function initReviews(listingId, sellerId) {
 
 	if (!reviewsList) return;
 
-	const renderReview = (r) => `
-		<div class="review-card">
-			<div class="review-header">
-				<strong>${r.reviewer_name ?? r.name ?? "Anonymous"}</strong>
-				${renderStarRating(r.rating)}
+  const escapeHTML = (str) => {
+    if (!str) return "";
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  };
+
+  const renderReview = (r) => {
+    const reviewerName = escapeHTML(r.reviewer_name ?? r.name ?? "Anonymous");
+    const comment = escapeHTML(r.comment ?? "");
+
+    return `
+			<div class="review-card">
+				<div class="review-header">
+					<strong>${reviewerName}</strong>
+					${renderStarRating(r.rating)}
+				</div>
+				<p>${comment}</p>
 			</div>
-			<p>${r.comment ?? ""}</p>
-		</div>
-	`;
+		`;
+  };
 
 	try {
 		const data = await api.get(`/reviews?listing_id=${listingId}`);

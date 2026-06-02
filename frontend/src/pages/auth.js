@@ -82,9 +82,22 @@ function clearLoading(btn) {
 function getRedirectTarget() {
 	const params = new URLSearchParams(window.location.search);
 	const redirect = params.get("redirect");
-	return redirect ? decodeURIComponent(redirect) : "/";
-}
 
+	if (redirect) {
+		try {
+			const decodedTarget = decodeURIComponent(redirect);
+			const parsedUrl = new URL(decodedTarget, window.location.origin);
+
+			if (parsedUrl.origin === window.location.origin) {
+				return parsedUrl.pathname + parsedUrl.search + parsedUrl.hash;
+			}
+		} catch (error) {
+			console.warn("Invalid redirect attempt:", error.message);
+		}
+	}
+
+	return "/";
+}
 function initFormValidation() {
 	const formLogin = document.getElementById("form-login");
 	const formRegister = document.getElementById("form-register");

@@ -18,13 +18,34 @@ function initSellForm() {
 
 	if (!form) return;
 
-	photoUrlInput?.addEventListener("input", () => {
-		const url = photoUrlInput.value.trim();
-		if (previewImg) {
-			previewImg.src = url || "";
-			previewImg.hidden = !url;
-		}
-	});
+  photoUrlInput?.addEventListener("input", () => {
+    const url = photoUrlInput.value.trim();
+
+    if (previewImg) {
+      let isSafe = false;
+      let safeUrl = "";
+
+      if (url) {
+        try {
+          const parsedUrl = new URL(url);
+          if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
+            isSafe = true;
+            safeUrl = parsedUrl.href;
+          }
+        } catch (error) {
+          console.warn("Error parsing URL:", error);
+        }
+      }
+
+      if (isSafe) {
+        previewImg.src = safeUrl;
+        previewImg.hidden = false;
+      } else {
+        previewImg.src = "";
+        previewImg.hidden = true;
+      }
+    }
+  });
 
 	form.addEventListener("submit", async (e) => {
 		e.preventDefault();
