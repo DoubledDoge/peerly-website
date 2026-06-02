@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Middleware;
+
 function applyCors(): void
 {
     $allowedOrigin = getenv('ALLOWED_ORIGIN') ?: '';

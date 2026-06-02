@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../middleware/cors.php';
+require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../models/User.php';
 
-applyCors();
+\App\Middleware\applyCors();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -23,7 +24,7 @@ if (!$email || !$password) {
     exit;
 }
 
-$user = User::findByEmail($email);
+$user = \App\Models\User::findByEmail($email);
 
 $dummyHash = '$2y$12$invalidhashfortimingprevention000000000000000000000000000';
 $valid     = $user
@@ -42,14 +43,14 @@ if (!$user['is_active']) {
     exit;
 }
 
-getDB()->prepare(
+\App\Config\getDB()->prepare(
     "DELETE FROM sessions WHERE user_id = ? AND expires_at <= NOW()"
 )->execute([$user['id']]);
 $token     = bin2hex(random_bytes(32));
 $tokenHash = hash('sha256', $token);
 $expiresAt = date('Y-m-d H:i:s', strtotime('+30 days'));
 
-getDB()->prepare("
+\App\Config\getDB()->prepare("
     INSERT INTO sessions (user_id, token_hash, expires_at)
     VALUES (?, ?, ?)
 ")->execute([$user['id'], $tokenHash, $expiresAt]);

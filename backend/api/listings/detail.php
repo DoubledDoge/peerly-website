@@ -2,11 +2,13 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../middleware/auth.php';
+require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Listing.php';
 
-applyCors();
+\App\Middleware\applyCors();
 
 $id = (int) ($_GET['id'] ?? 0);
 if (!$id) {
@@ -15,7 +17,7 @@ if (!$id) {
     exit;
 }
 
-$listing = Listing::findById($id);
+$listing = \App\Models\Listing::findById($id);
 if (!$listing) {
     http_response_code(404);
     echo json_encode(['error' => 'Listing not found.']);
@@ -31,7 +33,7 @@ if ($method === 'GET') {
 }
 
 if ($method === 'PUT') {
-    $user = requireAuth();
+    $user = \App\Middleware\requireAuth();
     $isOwner = (int) $listing['seller_id'] === (int) $user['id'];
     $isAdmin = in_array($user['role'], ['admin'], true);
 
@@ -53,8 +55,8 @@ if ($method === 'PUT') {
     }
 
     $updated = $isAdmin
-        ? Listing::update($id, (int) $listing['seller_id'], $fields)
-        : Listing::update($id, (int) $user['id'], $fields);
+        ? \App\Models\Listing::update($id, (int) $listing['seller_id'], $fields)
+        : \App\Models\Listing::update($id, (int) $user['id'], $fields);
 
     if (!$updated) {
         http_response_code(400);
@@ -63,12 +65,12 @@ if ($method === 'PUT') {
     }
 
     http_response_code(200);
-    echo json_encode(['listing' => Listing::findById($id)]);
+    echo json_encode(['listing' => \App\Models\Listing::findById($id)]);
     exit;
 }
 
 if ($method === 'DELETE') {
-    $user    = requireAuth();
+    $user    = \App\Middleware\requireAuth();
     $isOwner = (int) $listing['seller_id'] === (int) $user['id'];
     $isAdmin = in_array($user['role'], ['admin', 'moderator'], true);
 
@@ -79,8 +81,8 @@ if ($method === 'DELETE') {
     }
 
     $removed = $isAdmin
-        ? Listing::adminRemove($id)
-        : Listing::delete($id, (int) $user['id']);
+        ? \App\Models\Listing::adminRemove($id)
+        : \App\Models\Listing::delete($id, (int) $user['id']);
 
     if (!$removed) {
         http_response_code(400);

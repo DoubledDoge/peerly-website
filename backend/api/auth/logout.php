@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../middleware/auth.php';
+require_once __DIR__ . '/../../config/db.php';
 
-applyCors();
+\App\Middleware\applyCors();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -13,11 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$token = getBearerToken();
+$token = \App\Middleware\getBearerToken();
 
 if ($token) {
     $hash = hash('sha256', $token);
-    getDB()->prepare(
+    \App\Config\getDB()->prepare(
         "DELETE FROM sessions WHERE token_hash = ?"
     )->execute([$hash]);
 }

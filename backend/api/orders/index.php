@@ -2,23 +2,25 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../middleware/auth.php';
+require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Order.php';
 require_once __DIR__ . '/../../models/Listing.php';
 
-applyCors();
+\App\Middleware\applyCors();
 
 $method = $_SERVER['REQUEST_METHOD'];
-$user   = requireAuth();
+$user   = \App\Middleware\requireAuth();
 
 if ($method === 'GET') {
     if (in_array($user['role'], ['admin', 'moderator'], true)) {
         $page   = (int) ($_GET['page']     ?? 1);
         $perPage = (int) ($_GET['per_page'] ?? 50);
-        $orders = Order::listAll($page, $perPage);
+        $orders = \App\Models\Order::listAll($page, $perPage);
     } else {
-        $orders = Order::listForUser((int) $user['id']);
+        $orders = \App\Models\Order::listForUser((int) $user['id']);
     }
 
     http_response_code(200);
@@ -36,7 +38,7 @@ if ($method === 'POST') {
         exit;
     }
 
-    $listing = Listing::findById($listingId);
+    $listing = \App\Models\Listing::findById($listingId);
 
     if (!$listing) {
         http_response_code(404);
@@ -54,13 +56,13 @@ if ($method === 'POST') {
         exit;
     }
 
-    $orderId = Order::create(
+    $orderId = \App\Models\Order::create(
         buyerId:     (int) $user['id'],
         listingId:   $listingId,
         priceAtSale: (float) $listing['price']
     );
 
-    $order = Order::findById($orderId);
+    $order = \App\Models\Order::findById($orderId);
 
     http_response_code(201);
     echo json_encode([
@@ -87,7 +89,7 @@ if ($method === 'PUT') {
         exit;
     }
 
-    $updated = Order::updateStatus($id, $status);
+    $updated = \App\Models\Order::updateStatus($id, $status);
 
     if (!$updated) {
         http_response_code(400);

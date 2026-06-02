@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/Report.php';
 
-applyCors();
+\App\Middleware\applyCors();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
-    requireRole(['moderator', 'admin']);
+    \App\Middleware\requireRole(['moderator', 'admin']);
 
-    $result = Report::list(
+    $result = \App\Models\Report::list(
         status:  $_GET['status']   ?? 'open',
         page:    (int) ($_GET['page']     ?? 1),
         perPage: (int) ($_GET['per_page'] ?? 20)
@@ -25,7 +26,7 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST') {
-    $user = requireAuth();
+    $user = \App\Middleware\requireAuth();
     $body = json_decode(file_get_contents('php://input'), true) ?? [];
 
     $listingId = (int) ($body['listing_id'] ?? 0);
@@ -38,7 +39,7 @@ if ($method === 'POST') {
         exit;
     }
 
-    $id = Report::create((int) $user['id'], $listingId, $reason, $details);
+    $id = \App\Models\Report::create((int) $user['id'], $listingId, $reason, $details);
 
     http_response_code(201);
     echo json_encode(['report_id' => $id, 'message' => 'Report submitted.']);
@@ -46,7 +47,7 @@ if ($method === 'POST') {
 }
 
 if ($method === 'PUT') {
-    $user = requireRole(['moderator', 'admin']);
+    $user = \App\Middleware\requireRole(['moderator', 'admin']);
 
     $id     = (int) ($_GET['id'] ?? 0);
     $body   = json_decode(file_get_contents('php://input'), true) ?? [];
@@ -58,7 +59,7 @@ if ($method === 'PUT') {
         exit;
     }
 
-    $updated = Report::resolve($id, (int) $user['id'], $status);
+    $updated = \App\Models\Report::resolve($id, (int) $user['id'], $status);
 
     if (!$updated) {
         http_response_code(400);

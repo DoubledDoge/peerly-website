@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../middleware/auth.php';
+require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Listing.php';
 
-applyCors();
+\App\Middleware\applyCors();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
-    $result = Listing::list([
+    $result = \App\Models\Listing::list([
         'category' => $_GET['category'] ?? '',
         'search'   => $_GET['search']   ?? '',
         'sort'     => $_GET['sort']     ?? 'newest',
@@ -26,7 +28,7 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST') {
-    $user = requireAuth();
+    $user = \App\Middleware\requireAuth();
     $body = json_decode(file_get_contents('php://input'), true) ?? [];
 
     $errors = [];
@@ -59,7 +61,7 @@ if ($method === 'POST') {
         exit;
     }
 
-    $id = Listing::create((int) $user['id'], [
+    $id = \App\Models\Listing::create((int) $user['id'], [
         'title'       => $title,
         'description' => $description,
         'price'       => (float) $price,
@@ -67,7 +69,7 @@ if ($method === 'POST') {
         'photo_url'   => $photoUrl ?: null,
     ]);
 
-    $listing = Listing::findById($id);
+    $listing = \App\Models\Listing::findById($id);
 
     http_response_code(201);
     echo json_encode(['listing' => $listing]);

@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/User.php';
 
-applyCors();
+\App\Middleware\applyCors();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
@@ -14,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-$user = requireAuth();
+$user = \App\Middleware\requireAuth();
 
-$fresh = User::findById((int) $user['id']);
+$fresh = \App\Models\User::findById((int) $user['id']);
 
 if (!$fresh) {
     http_response_code(404);
@@ -25,7 +25,7 @@ if (!$fresh) {
 }
 
 if (in_array($fresh['role'], ['seller', 'admin'], true)) {
-    $fresh['seller_rating'] = User::getSellerRating((int) $fresh['id']);
+    $fresh['seller_rating'] = \App\Models\User::getSellerRating((int) $fresh['id']);
 }
 
 http_response_code(200);

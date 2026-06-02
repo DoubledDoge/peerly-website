@@ -2,20 +2,21 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Listing.php';
 
-applyCors();
+\App\Middleware\applyCors();
 
 $method = $_SERVER['REQUEST_METHOD'];
 $id     = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
 if ($method === 'GET' && $id === null) {
-    requireRole('admin');
+    \App\Middleware\requireRole('admin');
 
-    $result = User::list(
+    $result = \App\Models\User::list(
         page:    (int) ($_GET['page']     ?? 1),
         perPage: (int) ($_GET['per_page'] ?? 20),
         role:         ($_GET['role']      ?? '')
@@ -27,7 +28,7 @@ if ($method === 'GET' && $id === null) {
 }
 
 if ($method === 'GET' && $id !== null) {
-    $user = User::findById($id);
+    $user = \App\Models\User::findById($id);
 
     if (!$user) {
         http_response_code(404);
@@ -35,8 +36,8 @@ if ($method === 'GET' && $id !== null) {
         exit;
     }
 
-    $user['seller_rating'] = User::getSellerRating($id);
-    $user['listings']      = Listing::list([
+    $user['seller_rating'] = \App\Models\User::getSellerRating($id);
+    $user['listings']      = \App\Models\Listing::list([
         'seller_id' => $id,
         'status'    => 'active',
         'per_page'  => 12,
@@ -48,7 +49,7 @@ if ($method === 'GET' && $id !== null) {
 }
 
 if ($method === 'PUT' && $id !== null) {
-    $authUser = requireAuth();
+    $authUser = \App\Middleware\requireAuth();
     $isSelf   = (int) $authUser['id'] === $id;
     $isAdmin  = $authUser['role'] === 'admin';
 
@@ -71,18 +72,18 @@ if ($method === 'PUT' && $id !== null) {
                 echo json_encode(['error' => 'Invalid role.']);
                 exit;
             }
-            User::setRole($id, $body['role']);
+            \App\Models\User::setRole($id, $body['role']);
         }
         if (isset($body['is_active'])) {
-            User::setActive($id, (bool) $body['is_active']);
+            \App\Models\User::setActive($id, (bool) $body['is_active']);
         }
     }
 
     if (!empty($fields)) {
-        User::update($id, $fields);
+        \App\Models\User::update($id, $fields);
     }
 
-    $updated = User::findById($id);
+    $updated = \App\Models\User::findById($id);
 
     http_response_code(200);
     echo json_encode(['user' => $updated]);

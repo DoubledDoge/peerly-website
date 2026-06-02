@@ -40,3 +40,4 @@ dist-ssr
 /frontend/node_modules/vite/
 /frontend/node_modules/.bin/vite.CMD
 /frontend/node_modules/.bin/vite.ps1
+/backend/phpcs.phar

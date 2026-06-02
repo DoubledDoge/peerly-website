@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../config/db.php';
+namespace App\Middleware;
+
+use function App\Config\getDB;
 
 function getBearerToken(): ?string
 {

@@ -1,8 +1,10 @@
-﻿<?php
+<?php
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../config/db.php';
+namespace App\Models;
+
+use function App\Config\getDB;
 
 class Review
 {

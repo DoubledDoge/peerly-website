@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../config/db.php';
+namespace App\Models;
 
-// phpcs:ignore PSR1.Classes.ClassDeclaration
+use function App\Config\getDB;
+
 class User
 {
     public static function findById(int $id): ?array
@@ -97,7 +98,7 @@ class User
         $values  = [];
 
         foreach ($allowed as $col) {
-            if (array_key_exists($col, $fields)) {
+            if (\array_key_exists($col, $fields)) {
                 $set[]    = "{$col} = ?";
                 $values[] = $fields[$col];
             }
@@ -109,7 +110,7 @@ class User
 
         $values[] = $id;
         $stmt = getDB()->prepare(
-            "UPDATE users SET " . implode(', ', $set) . " WHERE id = ?"
+            "UPDATE users SET " . \implode(', ', $set) . " WHERE id = ?"
         );
         $stmt->execute($values);
         return $stmt->rowCount() > 0;

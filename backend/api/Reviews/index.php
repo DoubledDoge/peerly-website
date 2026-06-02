@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/Review.php';
 
-applyCors();
+\App\Middleware\applyCors();
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -19,7 +20,7 @@ if ($method === 'GET') {
         exit;
     }
 
-    $reviews = Review::listForListing($listingId);
+    $reviews = \App\Models\Review::listForListing($listingId);
 
     http_response_code(200);
     echo json_encode(['reviews' => $reviews]);
@@ -27,7 +28,7 @@ if ($method === 'GET') {
 }
 
 if ($method === 'POST') {
-    $user = requireAuth();
+    $user = \App\Middleware\requireAuth();
     $body = json_decode(file_get_contents('php://input'), true) ?? [];
 
     $listingId = (int) ($body['listing_id'] ?? 0);
@@ -64,20 +65,20 @@ if ($method === 'POST') {
         exit;
     }
 
-    if (Review::exists((int) $user['id'], $listingId)) {
+    if (\App\Models\Review::exists((int) $user['id'], $listingId)) {
         http_response_code(409);
         echo json_encode(['error' => 'You have already reviewed this listing.']);
         exit;
     }
 
-    $id     = Review::create(
+    $id     = \App\Models\Review::create(
         reviewerId: (int) $user['id'],
         listingId:  $listingId,
         sellerId:   $sellerId,
         rating:     $rating,
         comment:    $comment
     );
-    $review = Review::findById($id);
+    $review = \App\Models\Review::findById($id);
 
     http_response_code(201);
     echo json_encode(['review' => $review]);
