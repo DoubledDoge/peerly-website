@@ -17,10 +17,6 @@ jobs:
   deploy-frontend:
     name: Deploy Frontend (GitHub Pages)
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      contains(toJSON(github.event.head_commit.modified), 'frontend/') ||
-      contains(toJSON(github.event.head_commit.added), 'frontend/')
     permissions:
       contents: read
       pages: write
@@ -74,10 +70,6 @@ jobs:
   deploy-backend:
     name: Deploy Backend (InfinityFree FTP)
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      contains(toJSON(github.event.head_commit.modified), 'backend/') ||
-      contains(toJSON(github.event.head_commit.added), 'backend/')
     permissions:
       contents: read
 
