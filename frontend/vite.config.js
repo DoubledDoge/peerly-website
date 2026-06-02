@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 
 const currentDir = import.meta.dirname;
 export default defineConfig({
+  base: "/peerly-website/",
 	root: "src",
 	publicDir: "public",
 	build: {
