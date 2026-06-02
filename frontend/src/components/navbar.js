@@ -1,3 +1,8 @@
+import cartIconUrl from "@assets/icons/cart.svg?raw";
+import closeIconUrl from "@assets/icons/close.svg?raw";
+import menuIconUrl from "@assets/icons/menu.svg?raw";
+import shieldIconUrl from "@assets/icons/shield.svg?raw";
+import userIconUrl from "@assets/icons/user.svg?raw";
 import { authService } from "@services/auth-service.js";
 import { cartService } from "@services/cart-service.js";
 import { url } from "@utils/base.js";
@@ -11,7 +16,7 @@ const navLinks = [
 
 function isCurrentPage(href) {
 	const path = window.location.pathname;
-	const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+	const base = import.meta.env.BASE_URL.replace(/\/$/, ""); // e.g. "/peerly-website"
 	const stripped = path.replace(base, "") || "/";
 	if (href === url("/")) return stripped === "/" || stripped === "/index.html";
 	return stripped.includes(href.replace(url("/"), "/").replace(".html", ""));
@@ -34,14 +39,14 @@ function renderAuthAction() {
 	if (user) {
 		const adminLink =
 			user.role === "admin" || user.role === "moderator"
-				? `<a href="${url("/pages/admin/index.html")}" class="nav-icon-btn" aria-label="Admin Dashboard" title="Admin Dashboard"><img src="${url("/assets/icons/shield.svg")}" class="inline-icon" alt="shield-icon"></a>`
+				? `<a href="${url("/pages/admin/index.html")}" class="nav-icon-btn" aria-label="Admin Dashboard" title="Admin Dashboard">${shieldIconUrl}</a>`
 				: "";
 
 		return `
 			<div style="display: flex; gap: 0.5rem; align-items: center;">
 				${adminLink}
 				<a href="${url("/pages/profile.html")}" class="nav-icon-btn" aria-label="Your Profile" title="Your Profile">
-					<img src=${url("/assets/icons/user.svg")}" alt="user-icon" class="inline-icon">
+					${userIconUrl}
 				</a>
 			</div>
 		`;
@@ -49,14 +54,10 @@ function renderAuthAction() {
 	return `<a href="${url("/pages/auth.html")}" class="btn btn-primary btn-sm">Sign In</a>`;
 }
 
-function updateAuthContainer() {
-	const authContainer = document.getElementById("auth-action-container");
-	if (authContainer) authContainer.innerHTML = renderAuthAction();
-}
-
 function updateCartBadge() {
 	const badge = document.getElementById("cart-badge");
 	if (!badge) return;
+
 	const count = cartService.getCartCount();
 	badge.textContent = String(count);
 	badge.style.display = count > 0 ? "flex" : "none";
@@ -89,14 +90,14 @@ export function initNavbar() {
 				</li>
 				<li>
 					<a href="${url("/pages/cart.html")}" class="nav-icon-btn cart-btn" aria-label="View your cart" title="View your cart">
-						<img src="${url("/assets/icons/cart.svg")}" class="inline-icon" alt="cart-icon">
+						${cartIconUrl}
 						<span class="cart-badge" id="cart-badge" style="display: none;">0</span>
 					</a>
 				</li>
 				<li class="mobile-toggle">
 					<button type="button" aria-controls="primary-navigation" aria-expanded="false" id="hamburger" class="nav-icon-btn">
-						<img src="${url("/assets/icons/menu.svg")}"  alt="menu-icon" class="inline-icon">
-						<img src="${url("/assets/icons/close.svg")}" alt="close-icon" class="inline-icon icon-close" hidden>
+						<span class="icon-menu">${menuIconUrl}</span>
+						<span class="icon-close" hidden>${closeIconUrl}</span>
 					</button>
 				</li>
 			</menu>
@@ -107,18 +108,16 @@ export function initNavbar() {
 	initThemeToggle();
 	updateCartBadge();
 
-	const token = localStorage.getItem("authToken");
-	const alreadyValidated = sessionStorage.getItem("sessionValidated");
-
-	if (token && !alreadyValidated) {
-		authService.rehydrate().then((user) => {
-			if (user) sessionStorage.setItem("sessionValidated", "1");
-			updateAuthContainer();
-		});
-	}
+	authService.rehydrate().then(() => {
+		const authContainer = document.getElementById("auth-action-container");
+		if (authContainer) authContainer.innerHTML = renderAuthAction();
+	});
 
 	window.addEventListener("cartUpdated", updateCartBadge);
-	window.addEventListener("userUpdated", updateAuthContainer);
+	window.addEventListener("userUpdated", () => {
+		const authContainer = document.getElementById("auth-action-container");
+		if (authContainer) authContainer.innerHTML = renderAuthAction();
+	});
 }
 
 function initMobileMenu() {
