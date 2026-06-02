@@ -3,16 +3,17 @@ import { showToast } from "@components/toast.js";
 import { cartService } from "@services/cart-service.js";
 import { currencyService } from "@services/currency-service.js";
 import { listingsService } from "@services/listings-service.js";
+import { url } from "@utils/base.js";
 
 export function renderListingCard(listing) {
 	const isSold = listing.status === "sold";
-	const photoSrc = listing.photo_url || "/assets/placeholder.png";
+	const photoSrc = listing.photo_url || url("/assets/placeholder.png");
 	const location = listing.seller_city || "";
 
 	return `
 		<article class="listing-card ${isSold ? "listing-card--sold" : ""}"
 		         data-id="${listing.id}">
-			<a href="/pages/listing-detail.html?id=${listing.id}" class="listing-card__image-link">
+			<a href="${url("/pages/listing-detail.html")}?id=${listing.id}" class="listing-card__image-link">
 				<img
 					src="${photoSrc}"
 					alt="${listing.title}"
@@ -26,7 +27,7 @@ export function renderListingCard(listing) {
 				<span class="listing-card__category">${listing.category}</span>
 
 				<h3 class="listing-card__title">
-					<a href="/pages/listing-detail.html?id=${listing.id}">${listing.title}</a>
+					<a href="${url("/pages/listing-detail.html")}?id=${listing.id}">${listing.title}</a>
 				</h3>
 
 				<p class="listing-card__price">

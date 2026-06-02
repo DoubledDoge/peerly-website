@@ -1,52 +1,143 @@
 ﻿<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-    <title>Admin Dashboard - Peerly</title>
-    <script>
-      (() => {
-        const savedTheme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Peerly - buy and sell directly with people around you. No middlemen, no businesses." />
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
+  <title>Peerly</title>
+  <script>
+    (() => {
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-          document.documentElement.setAttribute("data-theme", "dark");
-        } else {
-          document.documentElement.setAttribute("data-theme", "light");
-        }
-      })();
-    </script>
-    <link href="../../styles/main.css" rel="stylesheet" />
-    <link href="../../styles/pages/admin/index.css" rel="stylesheet" />
+      if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/pages/index.css" />
 </head>
+
 <body>
 <header id="navbar"></header>
 
-<main class="container" style="padding-block: 4rem; min-height: 60vh;">
-    <header class="dashboard-header">
-        <h1>Admin Dashboard</h1>
-        <p>Overview of platform activity and management.</p>
+<main>
+  <section class="hero container">
+    <article class="hero-content">
+      <p class="hero-tagline">For People, From People.</p>
+
+      <h1 class="hero-title">
+        The marketplace<br />
+        <em>built for you,</em><br />
+        not businesses.
+      </h1>
+
+      <p class="hero-description">
+        Peerly connects buyers and sellers directly.
+        No corporate middlemen, no listing fees.
+      </p>
+
+      <div class="hero-actions">
+        <a href="./pages/listings.html" class="btn btn-primary btn-lg">Search listings</a>
+        <a href="./pages/sell.html" class="btn btn-outline btn-lg">Post a listing</a>
+      </div>
+    </article>
+
+    <aside class="hero-preview" aria-hidden="true">
+      <article class="preview-card">
+        <div class="preview-media"></div>
+        <div class="preview-details">
+          <span>Electronics</span>
+          <p>Sony Walkman</p>
+          <p>$45.00</p>
+        </div>
+      </article>
+
+      <article class="preview-card">
+        <div class="preview-media"></div>
+        <div class="preview-details">
+          <span>Books</span>
+          <p>Design of Everyday Things</p>
+          <p>$12.00</p>
+        </div>
+      </article>
+
+      <article class="preview-card">
+        <div class="preview-media"></div>
+        <div class="preview-details">
+          <span>Furniture</span>
+          <p>Mid-century Side Table</p>
+          <p>$120.00</p>
+        </div>
+      </article>
+    </aside>
+
+    <div id="search-bar-container"></div>
+  </section>
+
+  <section class="categories">
+    <a href="./pages/listings.html?category=electronics" class="category-pill">Electronics</a>
+    <a href="./pages/listings.html?category=furniture" class="category-pill">Furniture</a>
+    <a href="./pages/listings.html?category=clothing" class="category-pill">Clothing</a>
+    <a href="./pages/listings.html?category=books" class="category-pill">Books</a>
+    <a href="./pages/listings.html?category=other" class="category-pill">Other</a>
+    <a href="./pages/listings.html" class="category-pill">View All ➔</a>
+  </section>
+
+  <section class="featured container" aria-labelledby="featured-heading">
+    <header class="section-header">
+      <div>
+        <h2 id="featured-heading">Featured listings</h2>
+        <p>Hand-picked items from sellers in your area</p>
+      </div>
     </header>
 
-    <div class="dashboard-grid">
-        <a class="btn btn-outline dashboard-card-btn" href="listings.html">
-            <img alt="Listing Icon" aria-hidden="true" class="inline-icon" src="../../assets/icons/package.svg"/> Manage Listings
-        </a>
-        <a class="btn btn-outline dashboard-card-btn" href="orders.html">
-            <img alt="Cart Icon" aria-hidden="true" class="inline-icon" src="../../assets/icons/cart.svg"/> Manage Orders
-        </a>
-        <a class="btn btn-outline dashboard-card-btn" href="users.html">
-            <img alt="User Icon" aria-hidden="true" class="inline-icon" src="../../assets/icons/user.svg"/> Manage Users
-        </a>
-        <a class="btn btn-outline dashboard-card-btn" href="reports.html">
-            <img alt="Chart Icon" aria-hidden="true" class="inline-icon" src="../../assets/icons/chart-bar.svg"/> View Reports
-        </a>
-    </div>
+    <article id="featured-grid" class="featured-list" aria-live="polite" aria-label="Featured listings">
+      <div class="skeleton-card"><div></div><div><span></span><span></span><span></span></div></div>
+      <div class="skeleton-card"><div></div><div><span></span><span></span><span></span></div></div>
+      <div class="skeleton-card"><div></div><div><span></span><span></span><span></span></div></div>
+      <div class="skeleton-card"><div></div><div><span></span><span></span><span></span></div></div>
+    </article>
+  </section>
+
+  <section class="how-it-works container" aria-labelledby="how-heading">
+    <header class="section-header centered">
+      <h2 id="how-heading">How Peerly works</h2>
+      <p>Three steps between you and your next great find</p>
+    </header>
+
+    <ol class="steps-list">
+      <li class="step-item">
+        <p class="step-number">01</p>
+        <div class="step-content">
+          <h3>Create an account</h3>
+          <p>Sign up in seconds. Post a listing in minutes. Buy/Sell a product within hours.</p>
+        </div>
+      </li>
+      <li class="step-item">
+        <p class="step-number">02</p>
+        <div class="step-content">
+          <h3>Browse or list</h3>
+          <p>Search thousands of listings or post your own in under two minutes with a photo and a price.</p>
+        </div>
+      </li>
+      <li class="step-item">
+        <p class="step-number">03</p>
+        <div class="step-content">
+          <h3>Trade directly</h3>
+          <p>Connect with buyers or sellers, agree on a deal, and complete your transaction.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
 </main>
 
 <footer id="footer"></footer>
 
-<script src="index.js" type="module"></script>
+<script type="module" src="index.js"></script>
 </body>
 </html>

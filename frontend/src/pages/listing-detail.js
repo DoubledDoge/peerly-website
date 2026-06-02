@@ -7,10 +7,12 @@ import { cartService } from "@services/cart-service.js";
 import { currencyService } from "@services/currency-service.js";
 import { listingsService } from "@services/listings-service.js";
 import { api } from "@utils/api.js";
+import { url } from "@utils/base.js";
+
+initNavbar();
+initFooter();
 
 document.addEventListener("DOMContentLoaded", async () => {
-	initNavbar();
-	initFooter();
 	await initProductDetail();
 });
 
@@ -39,7 +41,7 @@ async function initProductDetail() {
 	}
 
 	document.getElementById("detail-image").src =
-		product.photo_url || "/assets/placeholder.png";
+		product.photo_url || url("/assets/placeholder.png");
 	document.getElementById("detail-title").textContent = product.title;
 	document.getElementById("detail-description").textContent =
 		product.description;
@@ -50,15 +52,13 @@ async function initProductDetail() {
 		product.seller_name || "Anonymous Seller";
 
 	const sellerCityEl = document.getElementById("seller-city");
-	if (sellerCityEl) {
+	if (sellerCityEl)
 		sellerCityEl.textContent = product.seller_city || "South Africa";
-	}
 
 	const sellerBioEl = document.getElementById("seller-bio");
-	if (sellerBioEl) {
+	if (sellerBioEl)
 		sellerBioEl.textContent =
 			product.seller_bio || "This seller hasn't added a bio yet.";
-	}
 
 	document.getElementById("seller-rating-container").innerHTML =
 		renderStarRating(product.seller_rating ?? 0);
@@ -100,9 +100,7 @@ async function initProductDetail() {
 	}
 
 	initReportForm(product);
-
 	await initReviews(product.id, product.seller_id);
-
 	productView.style.display = "grid";
 }
 
@@ -142,10 +140,7 @@ function initReportForm(product) {
 		submitReportBtn.disabled = true;
 
 		try {
-			await api.post("/reports", {
-				listing_id: product.id,
-				reason,
-			});
+			await api.post("/reports", { listing_id: product.id, reason });
 
 			reportFormContainer.style.display = "none";
 			reportBtn.innerHTML = "✅ Reported";
@@ -179,7 +174,6 @@ async function initReviews(listingId, sellerId) {
 	const renderReview = (r) => {
 		const reviewerName = escapeHTML(r.reviewer_name ?? r.name ?? "Anonymous");
 		const comment = escapeHTML(r.comment ?? "");
-
 		return `
 			<div class="review-card">
 				<div class="review-header">
@@ -194,7 +188,6 @@ async function initReviews(listingId, sellerId) {
 	try {
 		const data = await api.get(`/reviews?listing_id=${listingId}`);
 		const reviews = data.reviews ?? [];
-
 		reviewsList.innerHTML = reviews.length
 			? reviews.map(renderReview).join("")
 			: `<p class="reviews-empty">No reviews yet. Be the first!</p>`;

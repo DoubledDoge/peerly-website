@@ -6,6 +6,7 @@ import { currencyService } from "@services/currency-service.js";
 import { listingsService } from "@services/listings-service.js";
 import { api } from "@utils/api.js";
 import { requireRole } from "@utils/auth-guard.js";
+import { url } from "@utils/base.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
 	await requireRole(["admin", "moderator"]);
@@ -45,13 +46,13 @@ async function initAdminListingsTable() {
 					<td>
 						<div class="listing-preview">
 							<img
-								src="${listing.photo_url || "/assets/icons/camera.svg"}"
+								src="${listing.photo_url || url("/assets/icons/camera.svg")}"
 								alt="Thumb"
 								class="listing-thumb"
 								loading="lazy"
 							/>
 							<div>
-								<a href="/pages/listing-detail.html?id=${listing.id}"
+								<a href="${url("/pages/listing-detail.html")}?id=${listing.id}"
 								   target="_blank"
 								   style="font-weight:500;color:var(--text-colour);text-decoration:none;">
 									${listing.title}

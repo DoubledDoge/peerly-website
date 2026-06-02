@@ -1,4 +1,5 @@
-﻿import { initFooter } from "@components/footer.js";
+﻿// ─── cart.js ────────────────────────────────────────────────────────────────
+import { initFooter } from "@components/footer.js";
 import { initNavbar } from "@components/navbar.js";
 import { renderOrderSummary } from "@components/order-summary.js";
 import { showToast } from "@components/toast.js";
@@ -6,10 +7,11 @@ import { cartService } from "@services/cart-service.js";
 import { currencyService } from "@services/currency-service.js";
 import { requireAuth } from "@utils/auth-guard.js";
 
+initNavbar();
+initFooter();
+requireAuth();
+
 document.addEventListener("DOMContentLoaded", () => {
-	requireAuth();
-	initNavbar();
-	initFooter();
 	initCartPage();
 });
 

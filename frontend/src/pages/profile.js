@@ -6,6 +6,7 @@ import { authService } from "@services/auth-service.js";
 import { listingsService } from "@services/listings-service.js";
 import { api } from "@utils/api.js";
 import { requireAuth } from "@utils/auth-guard.js";
+import { url } from "@utils/base.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
 	requireAuth();
@@ -76,7 +77,7 @@ function initProfileForm(user) {
 
 	logoutBtn?.addEventListener("click", async () => {
 		await authService.logout();
-		window.location.href = "/";
+		window.location.href = url("/");
 	});
 }
 

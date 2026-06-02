@@ -12,6 +12,8 @@ export const authService = {
 
 			storage.set("authToken", data.token);
 			storage.set("user", data.user);
+			// Fresh login counts as a validated session.
+			sessionStorage.setItem("sessionValidated", "1");
 			window.dispatchEvent(new Event("userUpdated"));
 
 			return { success: true, user: data.user };
@@ -30,6 +32,7 @@ export const authService = {
 
 			storage.set("authToken", data.token);
 			storage.set("user", data.user);
+			sessionStorage.setItem("sessionValidated", "1");
 			window.dispatchEvent(new Event("userUpdated"));
 
 			return { success: true, user: data.user };
@@ -42,9 +45,11 @@ export const authService = {
 		try {
 			await api.post("/auth/logout");
 		} catch {
+			// Swallow — we always clear local state regardless.
 		} finally {
 			storage.remove("authToken");
 			storage.remove("user");
+			sessionStorage.removeItem("sessionValidated");
 			window.dispatchEvent(new Event("userUpdated"));
 		}
 	},
@@ -56,11 +61,13 @@ export const authService = {
 		try {
 			const data = await api.get("/auth/me");
 			storage.set("user", data.user);
+			sessionStorage.setItem("sessionValidated", "1");
 			window.dispatchEvent(new Event("userUpdated"));
 			return data.user;
 		} catch {
 			storage.remove("authToken");
 			storage.remove("user");
+			sessionStorage.removeItem("sessionValidated");
 			window.dispatchEvent(new Event("userUpdated"));
 			return null;
 		}

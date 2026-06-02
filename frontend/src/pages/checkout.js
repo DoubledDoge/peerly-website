@@ -5,6 +5,7 @@ import { showToast } from "@components/toast.js";
 import { cartService } from "@services/cart-service.js";
 import { api } from "@utils/api.js";
 import { requireAuth } from "@utils/auth-guard.js";
+import { url } from "@utils/base.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	requireAuth();
@@ -17,7 +18,7 @@ function initCheckout() {
 	const cartItems = cartService.getCart();
 
 	if (cartItems.length === 0) {
-		window.location.href = "/pages/cart.html";
+		window.location.href = url("/pages/cart.html");
 		return;
 	}
 
@@ -44,7 +45,7 @@ function initCheckout() {
 			btn.textContent = "Order Confirmed!";
 
 			setTimeout(() => {
-				window.location.href = "/pages/profile.html";
+				window.location.href = url("/pages/profile.html");
 			}, 1500);
 		} catch (error) {
 			showToast(

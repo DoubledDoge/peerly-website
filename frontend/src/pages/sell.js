@@ -3,6 +3,7 @@ import { initNavbar } from "@components/navbar.js";
 import { showToast } from "@components/toast.js";
 import { listingsService } from "@services/listings-service.js";
 import { requireAuth } from "@utils/auth-guard.js";
+import { url } from "@utils/base.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 	requireAuth();
@@ -19,15 +20,15 @@ function initSellForm() {
 	if (!form) return;
 
 	photoUrlInput?.addEventListener("input", () => {
-		const url = photoUrlInput.value.trim();
+		const photoUrl = photoUrlInput.value.trim();
 
 		if (previewImg) {
 			let isSafe = false;
 			let safeUrl = "";
 
-			if (url) {
+			if (photoUrl) {
 				try {
-					const parsedUrl = new URL(url);
+					const parsedUrl = new URL(photoUrl);
 					if (
 						parsedUrl.protocol === "http:" ||
 						parsedUrl.protocol === "https:"
@@ -97,7 +98,7 @@ function initSellForm() {
 			showToast("Listing posted successfully!", "success");
 
 			setTimeout(() => {
-				window.location.href = "/pages/profile.html";
+				window.location.href = url("/pages/profile.html");
 			}, 1000);
 		} catch (error) {
 			showToast(error.message || "Failed to post listing.", "error");

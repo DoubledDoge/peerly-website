@@ -169,9 +169,3 @@
 	padding: 0;
 	font-weight: 500;
 }
-
-.btn-debug {
-	border-color: var(--color-admin-text);
-	color: var(--color-admin-text);
-	margin-top: 0.5rem;
-}

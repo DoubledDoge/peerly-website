@@ -5,18 +5,21 @@ import shieldIconUrl from "@assets/icons/shield.svg?raw";
 import userIconUrl from "@assets/icons/user.svg?raw";
 import { authService } from "@services/auth-service.js";
 import { cartService } from "@services/cart-service.js";
+import { url } from "@utils/base.js";
 import { initThemeToggle } from "./theme-toggle.js";
 
 const navLinks = [
-	{ href: "/", label: "Home" },
-	{ href: "/pages/listings.html", label: "Browse" },
-	{ href: "/pages/sell.html", label: "Sell" },
+	{ href: url("/"), label: "Home" },
+	{ href: url("/pages/listings.html"), label: "Browse" },
+	{ href: url("/pages/sell.html"), label: "Sell" },
 ];
 
 function isCurrentPage(href) {
 	const path = window.location.pathname;
-	if (href === "/") return path === "/" || path === "/index.html";
-	return path.includes(href.replace(".html", ""));
+	const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+	const stripped = path.replace(base, "") || "/";
+	if (href === url("/")) return stripped === "/" || stripped === "/index.html";
+	return stripped.includes(href.replace(url("/"), "/").replace(".html", ""));
 }
 
 function renderNavLinks() {
@@ -36,25 +39,29 @@ function renderAuthAction() {
 	if (user) {
 		const adminLink =
 			user.role === "admin" || user.role === "moderator"
-				? `<a href="/pages/admin/index.html" class="nav-icon-btn" aria-label="Admin Dashboard" title="Admin Dashboard">${shieldIconUrl}</a>`
+				? `<a href="${url("/pages/admin/index.html")}" class="nav-icon-btn" aria-label="Admin Dashboard" title="Admin Dashboard">${shieldIconUrl}</a>`
 				: "";
 
 		return `
 			<div style="display: flex; gap: 0.5rem; align-items: center;">
 				${adminLink}
-				<a href="/pages/profile.html" class="nav-icon-btn" aria-label="Your Profile" title="Your Profile">
+				<a href="${url("/pages/profile.html")}" class="nav-icon-btn" aria-label="Your Profile" title="Your Profile">
 					${userIconUrl}
 				</a>
 			</div>
 		`;
 	}
-	return `<a href="../pages/auth.html" class="btn btn-primary btn-sm">Sign In</a>`;
+	return `<a href="${url("/pages/auth.html")}" class="btn btn-primary btn-sm">Sign In</a>`;
+}
+
+function updateAuthContainer() {
+	const authContainer = document.getElementById("auth-action-container");
+	if (authContainer) authContainer.innerHTML = renderAuthAction();
 }
 
 function updateCartBadge() {
 	const badge = document.getElementById("cart-badge");
 	if (!badge) return;
-
 	const count = cartService.getCartCount();
 	badge.textContent = String(count);
 	badge.style.display = count > 0 ? "flex" : "none";
@@ -65,10 +72,11 @@ export function initNavbar() {
 	if (!el) return;
 	el.classList.add("site-navbar");
 
+	// Render synchronously from localStorage — zero network delay.
 	el.innerHTML = `
 		<div class="container">
-			<a href="/" aria-label="Home" class="navbar-logo">
-				<img src="/favicon.svg" width="50" alt="Logo" class="navbar-logo">
+			<a href="${url("/")}" aria-label="Home" class="navbar-logo">
+				<img src="${url("/favicon.svg")}" width="50" alt="Logo" class="navbar-logo">
 				Peerly
 			</a>
 
@@ -86,7 +94,7 @@ export function initNavbar() {
 					</button>
 				</li>
 				<li>
-					<a href="/pages/cart.html" class="nav-icon-btn cart-btn" aria-label="View your cart" title="View your cart">
+					<a href="${url("/pages/cart.html")}" class="nav-icon-btn cart-btn" aria-label="View your cart" title="View your cart">
 						${cartIconUrl}
 						<span class="cart-badge" id="cart-badge" style="display: none;">0</span>
 					</a>
@@ -105,16 +113,18 @@ export function initNavbar() {
 	initThemeToggle();
 	updateCartBadge();
 
-	authService.rehydrate().then(() => {
-		const authContainer = document.getElementById("auth-action-container");
-		if (authContainer) authContainer.innerHTML = renderAuthAction();
-	});
+	const token = localStorage.getItem("authToken");
+	const alreadyValidated = sessionStorage.getItem("sessionValidated");
+
+	if (token && !alreadyValidated) {
+		authService.rehydrate().then((user) => {
+			if (user) sessionStorage.setItem("sessionValidated", "1");
+			updateAuthContainer();
+		});
+	}
 
 	window.addEventListener("cartUpdated", updateCartBadge);
-	window.addEventListener("userUpdated", () => {
-		const authContainer = document.getElementById("auth-action-container");
-		if (authContainer) authContainer.innerHTML = renderAuthAction();
-	});
+	window.addEventListener("userUpdated", updateAuthContainer);
 }
 
 function initMobileMenu() {

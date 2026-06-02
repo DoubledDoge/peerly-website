@@ -2,6 +2,7 @@
 import { initNavbar } from "@components/navbar.js";
 import { authService } from "@services/auth-service.js";
 import { redirectIfAuthenticated } from "@utils/auth-guard.js";
+import { url } from "@utils/base.js";
 import {
 	isValidEmail,
 	isValidName,
@@ -31,9 +32,9 @@ function initAuthTabs() {
 		formLogin.setAttribute("data-active", isLogin ? "true" : "false");
 		formRegister.setAttribute("data-active", isLogin ? "false" : "true");
 
-		const url = new URL(window.location);
-		url.searchParams.set("mode", mode);
-		window.history.replaceState({}, "", url);
+		const u = new URL(window.location.href);
+		u.searchParams.set("mode", mode);
+		window.history.replaceState({}, "", u);
 	};
 
 	tabLogin.addEventListener("click", () => switchTab("login"));
@@ -96,8 +97,9 @@ function getRedirectTarget() {
 		}
 	}
 
-	return "/";
+	return url("/");
 }
+
 function initFormValidation() {
 	const formLogin = document.getElementById("form-login");
 	const formRegister = document.getElementById("form-register");
