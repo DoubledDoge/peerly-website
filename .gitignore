@@ -16,6 +16,7 @@ dist-ssr
 .htaccess
 .env
 .env.local
+.fallow
 
 # Editor directories and files
 .vscode/*
