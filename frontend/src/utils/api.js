@@ -1,6 +1,9 @@
 import { storage } from "@utils/storage.js";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "/api";
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? "/api").replace(
+	/\/$/,
+	"",
+);
 const API_KEY = import.meta.env.VITE_API_KEY ?? "";
 
 async function apiFetch(endpoint, options = {}) {
