@@ -44,3 +44,4 @@ dist-ssr
 /backend/phpcs.phar
 frontend/node_modules/vite
 frontend/node_modules/@biomejs/biome
+backend/config/env.php

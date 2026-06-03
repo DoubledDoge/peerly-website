@@ -7,19 +7,23 @@ namespace App\Config;
 use PDO;
 use PDOException;
 
+use function App\Config\applyEnv;
+
 function getDB(): PDO
 {
+    applyEnv();
+
     static $pdo = null;
 
     if ($pdo !== null) {
         return $pdo;
     }
 
-    $host = \getenv('DB_HOST') ?: 'localhost';
-    $port = \getenv('DB_PORT') ?: '3306';
-    $name = \getenv('DB_NAME') ?: '';
-    $user = \getenv('DB_USER') ?: '';
-    $pass = \getenv('DB_PASS') ?: '';
+    $host = DB_HOST;
+    $port = DB_PORT;
+    $name = DB_NAME;
+    $user = DB_USER;
+    $pass = DB_PASS;
 
     if (!$name || !$user) {
         \http_response_code(500);

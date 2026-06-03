@@ -1,4 +1,5 @@
 import searchIconUrl from "@assets/icons/search.svg?raw";
+import { url } from "@utils/base.js";
 
 function debounce(func, delay) {
 	let timeoutId;
@@ -31,12 +32,14 @@ export function initSearchBar(containerId) {
 		if (!query) return;
 
 		if (window.location.pathname.includes("listings.html")) {
-			const url = new URL(window.location);
-			url.searchParams.set("q", query);
-			window.history.pushState({}, "", url);
+			const currentUrl = new URL(window.location.href);
+			currentUrl.searchParams.set("q", query);
+			window.history.pushState({}, "", currentUrl);
 			window.dispatchEvent(new Event("searchUpdated"));
 		} else {
-			window.location.href = `/pages/listings.html?q=${encodeURIComponent(query)}`;
+			window.location.href = url(
+				`/pages/listings.html?q=${encodeURIComponent(query)}`,
+			);
 		}
 	});
 

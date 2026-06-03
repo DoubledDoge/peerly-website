@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
+use function App\Config\applyEnv;
+
 function applyCors(): void
 {
-    $allowedOrigin = getenv('ALLOWED_ORIGIN') ?: '';
-    $apiKey        = getenv('API_KEY') ?: '';
+    applyEnv();
+
+    $allowedOrigin = ALLOWED_ORIGIN;
+    $apiKey        = API_KEY;
 
     header('Content-Type: application/json; charset=utf-8');
     header('X-Content-Type-Options: nosniff');
