@@ -7,10 +7,9 @@ namespace App\Config;
 use PDO;
 use PDOException;
 
-use function App\Config\applyEnv;
-
 function getDB(): PDO
 {
+    require_once __DIR__ . '/env.php';
     applyEnv();
 
     static $pdo = null;

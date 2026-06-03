@@ -8,6 +8,7 @@ use function App\Config\applyEnv;
 
 function applyCors(): void
 {
+    require_once __DIR__ . '/../config/env.php';
     applyEnv();
 
     $allowedOrigin = ALLOWED_ORIGIN;
