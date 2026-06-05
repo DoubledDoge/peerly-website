@@ -80,5 +80,5 @@ function setMetric(id, value) {
 	const el = document.getElementById(id);
 	if (!el) return;
 	el.textContent = typeof value === "number" ? value.toLocaleString() : value;
-	el.classList.remove("metric-value--loading");
+	el.classList.remove("metric-value-loading");
 }
