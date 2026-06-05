@@ -42,18 +42,8 @@ if ($method === 'POST') {
     $photoBase64 = $body['photo_url'] ?? null;
 
     if ($photoBase64) {
-        $uploadDir = __DIR__ . '/../../../frontend/public/uploads/';
-
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        if (preg_match('/^data:image\/(\w+);base64,/', $photoBase64, $matches)) {
-            $ext = $matches[1];
-            $imageData = base64_decode(substr($photoBase64, strpos($photoBase64, ',') + 1));
-            $fileName = uniqid('listing_') . '.' . $ext;
-            file_put_contents($uploadDir . $fileName, $imageData);
-            $photoUrl = '/uploads/' . $fileName;
+        if (preg_match('/^data:image\/(jpeg|jpg|png|webp|gif);base64,/', $photoBase64)) {
+            $photoUrl = $photoBase64;
         } else {
             $errors['photo'] = 'Invalid image format.';
         }
