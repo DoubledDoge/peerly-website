@@ -17,6 +17,7 @@ function initSellForm() {
 	const previewImg = document.getElementById("preview-img");
 	const uploadPrompt = document.getElementById("upload-prompt");
 	const currencySymbol = document.getElementById("currency-symbol");
+	const photoPreviewContainer = document.getElementById("photo-preview");
 
 	if (currencySymbol) {
 		currencySymbol.textContent = "R";
@@ -35,7 +36,8 @@ function initSellForm() {
 
 			reader.onload = (event) => {
 				previewImg.src = event.target.result;
-				previewImg.hidden = false;
+				previewImg.style.display = "block";
+				photoPreviewContainer.style.display = "flex";
 				uploadPrompt.style.display = "none";
 			};
 
@@ -52,7 +54,7 @@ function initSellForm() {
 		btn.disabled = true;
 
 		const formData = new FormData(form);
-		const price = parseFloat(formData.get("price"));
+		const price = parseFloat(String(formData.get("price")));
 
 		if (!formData.get("title")?.name && !formData.get("title").trim()) {
 			showToast("Please enter a title.", "error");
