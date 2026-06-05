@@ -80,10 +80,9 @@ getDB()->prepare("
 $user = User::findById($userId);
 
 \http_response_code(201);
-
 \header('Content-Type: application/json');
-
 echo \json_encode([
     'token' => $token,
     'user'  => $user,
 ]);
+exit;

@@ -58,10 +58,9 @@ $expiresAt = date('Y-m-d H:i:s', strtotime('+30 days'));
 unset($user['password_hash']);
 
 http_response_code(200);
-
 header('Content-Type: application/json');
-
 echo json_encode([
     'token' => $token,
     'user'  => $user,
 ]);
+exit;
