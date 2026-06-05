@@ -5,6 +5,7 @@ import { listingsService } from "@services/listings-service.js";
 import { requireAuth } from "@utils/auth-guard.js";
 import { url } from "@utils/base.js";
 
+requireAuth();
 initNavbar();
 initFooter();
 initSellForm();
@@ -36,22 +37,40 @@ function initSellForm() {
 			const reader = new FileReader();
 
 			reader.onload = (event) => {
-				base64ImageString = event.target.result;
+				const img = new Image();
+				img.onload = () => {
+					const canvas = document.createElement("canvas");
+					const MAX = 800;
+					const scale = Math.min(MAX / img.width, MAX / img.height, 1);
+					canvas.width = img.width * scale;
+					canvas.height = img.height * scale;
+					canvas
+						.getContext("2d")
+						.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-				photoPreviewContainer.innerHTML = "";
+					base64ImageString = canvas.toDataURL("image/jpeg", 0.75);
 
-				const dynamicImg = document.createElement("img");
-				dynamicImg.src = base64ImageString;
-				dynamicImg.alt = "Product Preview";
-				dynamicImg.id = "preview-img";
-				dynamicImg.title = "Click to change photo";
+					if (base64ImageString.length > 1_000_000) {
+						showToast(
+							"Image is too large. Please use a smaller photo.",
+							"error",
+						);
+						base64ImageString = null;
+						return;
+					}
 
-				photoPreviewContainer.appendChild(dynamicImg);
-
-				photoPreviewContainer.style.display = "flex";
-				uploadPrompt.style.display = "none";
+					photoPreviewContainer.innerHTML = "";
+					const dynamicImg = document.createElement("img");
+					dynamicImg.src = base64ImageString;
+					dynamicImg.alt = "Product Preview";
+					dynamicImg.id = "preview-img";
+					dynamicImg.title = "Click to change photo";
+					photoPreviewContainer.appendChild(dynamicImg);
+					photoPreviewContainer.style.display = "flex";
+					uploadPrompt.style.display = "none";
+				};
+				img.src = /** @type {string} */ event.target.result;
 			};
-
 			reader.readAsDataURL(file);
 		}
 	});
