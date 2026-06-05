@@ -31,10 +31,7 @@ function initSellForm() {
 	});
 
 	photoInput?.addEventListener("change", (e) => {
-		let file;
-		if (e.target.files && e.target.files.length > 0) {
-			file = e.target.files;
-		}
+		const file = e.target.files?.[0];
 
 		if (file) {
 			const reader = new FileReader();

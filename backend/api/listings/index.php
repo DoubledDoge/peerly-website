@@ -32,28 +32,29 @@ if ($method === 'POST') {
 
     $errors = [];
 
-    $title       = trim($_POST['title']       ?? '');
-    $description = trim($_POST['description'] ?? '');
-    $price       =      $_POST['price']       ?? null;
-    $category    = trim($_POST['category']    ?? '');
+    $title       = trim($body['title']       ?? '');
+    $description = trim($body['description'] ?? '');
+    $price       =      $body['price']       ?? null;
+    $category    = trim($body['category']    ?? '');
 
-    $photoUrl    = null;
+    $photoUrl = null;
+    $photoBase64 = $body['photo_url'] ?? null;
 
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    if ($photoBase64) {
         $uploadDir = __DIR__ . '/../../../frontend/public/uploads/';
 
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true);
         }
 
-        $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-        $fileName = uniqid('listing_') . '.' . $fileExtension;
-        $targetPath = $uploadDir . $fileName;
-
-        if (move_uploaded_file($_FILES['photo']['tmp_name'], $targetPath)) {
+        if (preg_match('/^data:image\/(\w+);base64,/', $photoBase64, $matches)) {
+            $ext = $matches[1];
+            $imageData = base64_decode(substr($photoBase64, strpos($photoBase64, ',') + 1));
+            $fileName = uniqid('listing_') . '.' . $ext;
+            file_put_contents($uploadDir . $fileName, $imageData);
             $photoUrl = '/uploads/' . $fileName;
         } else {
-            $errors['photo'] = 'Failed to save the uploaded image.';
+            $errors['photo'] = 'Invalid image format.';
         }
     } else {
         $errors['photo'] = 'A product photo is required.';
