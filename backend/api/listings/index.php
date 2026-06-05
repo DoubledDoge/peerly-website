@@ -32,12 +32,13 @@ if ($method === 'POST') {
 
     $errors = [];
 
+    $body        = json_decode(file_get_contents('php://input'), true) ?? [];
     $title       = trim($body['title']       ?? '');
     $description = trim($body['description'] ?? '');
     $price       =      $body['price']       ?? null;
     $category    = trim($body['category']    ?? '');
 
-    $photoUrl = null;
+    $photoUrl    = null;
     $photoBase64 = $body['photo_url'] ?? null;
 
     if ($photoBase64) {
