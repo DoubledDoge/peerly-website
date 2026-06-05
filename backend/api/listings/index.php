@@ -29,15 +29,35 @@ if ($method === 'GET') {
 
 if ($method === 'POST') {
     $user = \App\Middleware\requireAuth();
-    $body = json_decode(file_get_contents('php://input'), true) ?? [];
 
     $errors = [];
 
-    $title       = trim($body['title']       ?? '');
-    $description = trim($body['description'] ?? '');
-    $price       =      $body['price']       ?? null;
-    $category    = trim($body['category']    ?? '');
-    $photoUrl    = trim($body['photo_url']   ?? '');
+    $title       = trim($_POST['title']       ?? '');
+    $description = trim($_POST['description'] ?? '');
+    $price       =      $_POST['price']       ?? null;
+    $category    = trim($_POST['category']    ?? '');
+
+    $photoUrl    = null;
+
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = __DIR__ . '/../../../frontend/public/uploads/';
+
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+
+        $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
+        $fileName = uniqid('listing_') . '.' . $fileExtension;
+        $targetPath = $uploadDir . $fileName;
+
+        if (move_uploaded_file($_FILES['photo']['tmp_name'], $targetPath)) {
+            $photoUrl = '/uploads/' . $fileName;
+        } else {
+            $errors['photo'] = 'Failed to save the uploaded image.';
+        }
+    } else {
+        $errors['photo'] = 'A product photo is required.';
+    }
 
     if (strlen($title) < 3) {
         $errors['title'] = 'Title must be at least 3 characters.';
@@ -51,9 +71,6 @@ if ($method === 'POST') {
     if (!$category) {
         $errors['category'] = 'Category is required.';
     }
-    if ($photoUrl && !filter_var($photoUrl, FILTER_VALIDATE_URL)) {
-        $errors['photo_url'] = 'Photo must be a valid URL.';
-    }
 
     if (!empty($errors)) {
         http_response_code(422);
@@ -66,7 +83,7 @@ if ($method === 'POST') {
         'description' => $description,
         'price'       => (float) $price,
         'category'    => $category,
-        'photo_url'   => $photoUrl ?: null,
+        'photo_url'   => $photoUrl,
     ]);
 
     $listing = \App\Models\Listing::findById($id);
@@ -75,6 +92,3 @@ if ($method === 'POST') {
     echo json_encode(['listing' => $listing]);
     exit;
 }
-
-http_response_code(405);
-echo json_encode(['error' => 'Method not allowed.']);

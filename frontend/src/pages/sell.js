@@ -12,40 +12,29 @@ initSellForm();
 
 function initSellForm() {
 	const form = document.getElementById("sell-form");
-	const photoUrlInput = document.getElementById("listing-photo-url");
+	const photoInput = document.getElementById("listing-photo");
+	const dropzone = document.getElementById("photo-dropzone");
 	const previewImg = document.getElementById("preview-img");
+	const uploadPrompt = document.getElementById("upload-prompt");
 
 	if (!form) return;
 
-	photoUrlInput?.addEventListener("input", () => {
-		const photoUrl = photoUrlInput.value.trim();
+	dropzone?.addEventListener("click", () => {
+		photoInput.click();
+	});
 
-		if (previewImg) {
-			let isSafe = false;
-			let safeUrl = "";
+	photoInput?.addEventListener("change", (e) => {
+		const file = e.target.files;
+		if (file) {
+			const reader = new FileReader();
 
-			if (photoUrl) {
-				try {
-					const parsedUrl = new URL(photoUrl);
-					if (
-						parsedUrl.protocol === "http:" ||
-						parsedUrl.protocol === "https:"
-					) {
-						isSafe = true;
-						safeUrl = parsedUrl.href;
-					}
-				} catch (error) {
-					console.warn("Error parsing URL:", error);
-				}
-			}
-
-			if (isSafe) {
-				previewImg.src = safeUrl;
+			reader.onload = (event) => {
+				previewImg.src = event.target.result;
 				previewImg.hidden = false;
-			} else {
-				previewImg.src = "";
-				previewImg.hidden = true;
-			}
+				uploadPrompt.style.display = "none";
+			};
+
+			reader.readAsDataURL(file);
 		}
 	});
 
@@ -58,10 +47,9 @@ function initSellForm() {
 		btn.disabled = true;
 
 		const formData = new FormData(form);
-		const data = Object.fromEntries(formData.entries());
-		const price = parseFloat(typeof data.price === "string" ? data.price : "");
+		const price = parseFloat(formData.get("price"));
 
-		if (!data.title?.trim()) {
+		if (!formData.get("title")?.name && !formData.get("title").trim()) {
 			showToast("Please enter a title.", "error");
 			btn.textContent = originalText;
 			btn.disabled = false;
@@ -73,26 +61,10 @@ function initSellForm() {
 			btn.disabled = false;
 			return;
 		}
-		if (!data.category) {
-			showToast("Please select a category.", "error");
-			btn.textContent = originalText;
-			btn.disabled = false;
-			return;
-		}
-
-		const payload = {
-			title: data.title.trim(),
-			description: data.description?.trim() || "",
-			price: price,
-			category: data.category,
-			photo_url:
-				typeof data.photo_url === "string"
-					? data.photo_url.trim() || null
-					: null,
-		};
 
 		try {
-			await listingsService.createListing(payload);
+			await listingsService.createListing(formData);
+
 			showToast("Listing posted successfully!", "success");
 
 			setTimeout(() => {
