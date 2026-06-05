@@ -14,7 +14,6 @@ function initSellForm() {
 	const form = document.getElementById("sell-form");
 	const photoInput = document.getElementById("listing-photo");
 	const dropzone = document.getElementById("photo-dropzone");
-	const previewImg = document.getElementById("preview-img");
 	const uploadPrompt = document.getElementById("upload-prompt");
 	const currencySymbol = document.getElementById("currency-symbol");
 	const photoPreviewContainer = document.getElementById("photo-preview");
@@ -35,8 +34,15 @@ function initSellForm() {
 			const reader = new FileReader();
 
 			reader.onload = (event) => {
-				previewImg.src = event.target.result;
-				previewImg.style.display = "block";
+				photoPreviewContainer.innerHTML = "";
+
+				const dynamicImg = document.createElement("img");
+				dynamicImg.src = event.target.result;
+				dynamicImg.alt = "Product Preview";
+				dynamicImg.id = "preview-img";
+				dynamicImg.title = "Click to change photo";
+
+				photoPreviewContainer.appendChild(dynamicImg);
 				photoPreviewContainer.style.display = "flex";
 				uploadPrompt.style.display = "none";
 			};
