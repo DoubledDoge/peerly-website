@@ -15,6 +15,7 @@ class Listing
                    u.name  AS seller_name,
                    u.email AS seller_email,
                    u.city  AS seller_city
+                   u.bio   AS seller_bio
             FROM   listings l
             JOIN   users u ON u.id = l.seller_id
             WHERE  l.id = ?
