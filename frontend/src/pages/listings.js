@@ -5,6 +5,7 @@ import { initSearchBar } from "@components/search-bar.js";
 import { showToast } from "@components/toast.js";
 import { cartService } from "@services/cart-service.js";
 import { listingsService } from "@services/listings-service.js";
+import { url } from "@utils/base.js";
 
 initNavbar();
 initFooter();
@@ -151,7 +152,9 @@ async function initListingsPage() {
 
 		const card = e.target.closest(".listing-card");
 		if (card) {
-			window.location.href = `/pages/listing-detail.html?id=${card.dataset.id}`;
+			window.location.href = url(
+				`/pages/listing-detail.html?id=${card.dataset.id}`,
+			);
 		}
 	});
 

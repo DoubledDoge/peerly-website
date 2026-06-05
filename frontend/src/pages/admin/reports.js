@@ -4,6 +4,7 @@ import { initNavbar } from "@components/navbar.js";
 import { showToast } from "@components/toast.js";
 import { api } from "@utils/api.js";
 import { requireRole } from "@utils/auth-guard.js";
+import { url } from "@utils/base.js";
 
 await requireRole(["admin", "moderator"]);
 initNavbar();
@@ -34,7 +35,7 @@ async function initReportsTable() {
 			return `
 				<tr>
 					<td style="font-weight:500;">
-						<a href="/pages/listing-detail.html?id=${report.listing_id}"
+						<a href="${url("/pages/listing-detail.html")}?id=${report.listing_id}"
 						   target="_blank"
 						   style="color:var(--primary-accent);text-decoration:underline;">
 							${report.listing_title ?? `Listing #${report.listing_id}`}

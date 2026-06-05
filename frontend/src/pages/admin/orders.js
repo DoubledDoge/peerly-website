@@ -5,6 +5,7 @@ import { showToast } from "@components/toast.js";
 import { currencyService } from "@services/currency-service.js";
 import { api } from "@utils/api.js";
 import { requireRole } from "@utils/auth-guard.js";
+import { url } from "@utils/base.js";
 
 await requireRole(["admin", "moderator"]);
 initNavbar();
@@ -46,7 +47,7 @@ async function initOrdersTable() {
 					</td>
 					<td>${order.buyer_name ?? order.buyer_email ?? "Unknown"}</td>
 					<td>
-						<a href="/pages/listing-detail.html?id=${order.listing_id}"
+						<a href="${url("/pages/listing-detail.html")}?id=${order.listing_id}""
 						   target="_blank"
 						   style="color:var(--primary-accent);text-decoration:underline;">
 							${order.listing_title ?? `Listing #${order.listing_id}`}

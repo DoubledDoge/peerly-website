@@ -5,7 +5,6 @@ import { listingsService } from "@services/listings-service.js";
 import { requireAuth } from "@utils/auth-guard.js";
 import { url } from "@utils/base.js";
 
-requireAuth();
 initNavbar();
 initFooter();
 initSellForm();
