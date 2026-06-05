@@ -16,6 +16,11 @@ function initSellForm() {
 	const dropzone = document.getElementById("photo-dropzone");
 	const previewImg = document.getElementById("preview-img");
 	const uploadPrompt = document.getElementById("upload-prompt");
+	const currencySymbol = document.getElementById("currency-symbol");
+
+	if (currencySymbol) {
+		currencySymbol.textContent = "R";
+	}
 
 	if (!form) return;
 
