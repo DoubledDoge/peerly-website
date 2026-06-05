@@ -6,9 +6,11 @@ require_once __DIR__ . '/middleware/cors.php';
 
 \App\Middleware\applyCors();
 
+$requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
 if (
     $_SERVER['REQUEST_METHOD'] === 'GET'
-    && ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php')
+    && ($requestPath === '/' || $requestPath === '/index.php')
 ) {
     http_response_code(200);
     echo json_encode([
@@ -18,6 +20,3 @@ if (
     ]);
     exit;
 }
-
-http_response_code(404);
-echo json_encode(['error' => 'Endpoint not found.']);
