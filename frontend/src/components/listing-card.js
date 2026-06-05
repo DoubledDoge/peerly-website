@@ -1,3 +1,4 @@
+import placeholderUrl from "@assets/placeholder.png";
 import { renderStarRating } from "@components/star-rating.js";
 import { showToast } from "@components/toast.js";
 import { cartService } from "@services/cart-service.js";
@@ -7,7 +8,7 @@ import { url } from "@utils/base.js";
 
 export function renderListingCard(listing) {
 	const isSold = listing.status === "sold";
-	const photoSrc = listing.photo_url || url("/assets/placeholder.png");
+	const photoSrc = listing.photo_url || placeholderUrl;
 	const location = listing.seller_city || "";
 
 	return `

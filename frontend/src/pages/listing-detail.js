@@ -1,4 +1,5 @@
-﻿import { initFooter } from "@components/footer.js";
+﻿import placeholderUrl from "@assets/placeholder.png";
+import { initFooter } from "@components/footer.js";
 import { initNavbar } from "@components/navbar.js";
 import { renderStarRating } from "@components/star-rating.js";
 import { showToast } from "@components/toast.js";
@@ -7,7 +8,6 @@ import { cartService } from "@services/cart-service.js";
 import { currencyService } from "@services/currency-service.js";
 import { listingsService } from "@services/listings-service.js";
 import { api } from "@utils/api.js";
-import { url } from "@utils/base.js";
 
 initNavbar();
 initFooter();
@@ -38,7 +38,7 @@ async function initProductDetail() {
 	}
 
 	document.getElementById("detail-image").src =
-		product.photo_url || url("/assets/placeholder.png");
+		product.photo_url || placeholderUrl;
 	document.getElementById("detail-title").textContent = product.title;
 	document.getElementById("detail-description").textContent =
 		product.description;
