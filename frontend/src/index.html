@@ -7,6 +7,7 @@
   <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
   <title>Peerly</title>
   <script>
+	// Preventing white flashes by immediately loading this code:
     (() => {
       const savedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;

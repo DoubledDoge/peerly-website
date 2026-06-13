@@ -1,6 +1,6 @@
 ﻿<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <link href="../favicon.svg" rel="icon" type="image/svg+xml" />
@@ -8,7 +8,9 @@
     <script>
       (() => {
         const savedTheme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
 
         if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
           document.documentElement.setAttribute("data-theme", "dark");
@@ -19,82 +21,104 @@
     </script>
     <link href="../styles/main.css" rel="stylesheet" />
     <link href="../styles/pages/profile.css" rel="stylesheet" />
-</head>
-<body>
-<header id="navbar"></header>
+  </head>
+  <body>
+    <header id="navbar"></header>
 
-<main class="profile-page container">
-    <div class="profile-layout">
-
+    <main class="profile-page container">
+      <div class="profile-layout">
         <section class="profile-container">
-            <header class="profile-header">
-                <div class="profile-title-row">
-                    <h1 id="profile-heading">Profile Settings</h1>
-                    <div id="role-badge-container"></div>
-                </div>
-            </header>
-
-            <form aria-labelledby="profile-heading" class="profile-form" id="profile-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="profile-name">Full Name</label>
-                        <input id="profile-name" name="name" required type="text" />
-                    </div>
-                    <div class="form-group">
-                        <label for="profile-email">Email Address</label>
-                        <input id="profile-email" name="email" required type="email" />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="profile-city">City</label>
-                    <select class="form-select" id="profile-city" name="city" required>
-                        <option value="">Select your city...</option>
-                        <option value="Cape Town">Cape Town</option>
-                        <option value="Johannesburg">Johannesburg</option>
-                        <option value="Pretoria">Pretoria</option>
-                        <option value="Durban">Durban</option>
-                        <option value="Port Elizabeth">Port Elizabeth</option>
-                        <option value="East London">East London</option>
-                        <option value="Bloemfontein">Bloemfontein</option>
-                        <option value="Kimberley">Kimberley</option>
-                        <option value="Mbombela">Mbombela</option>
-                        <option value="Pietermaritzburg">Pietermaritzburg</option>
-                        <option value="Rustenburg">Rustenburg</option>
-                        <option value="Polokwane">Polokwane</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="profile-bio">About Me (Bio)</label>
-                    <textarea id="profile-bio" name="bio" placeholder="Tell buyers and sellers a bit about yourself..." rows="4"></textarea>
-                </div>
-
-                <div class="profile-actions">
-                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                    <button class="btn btn-ghost" id="btn-logout" type="button">Sign Out</button>
-                </div>
-            </form>
-        </section>
-
-        <section aria-labelledby="user-listings-heading" class="user-listings-section" id="user-listings-section" style="display: none;">
-            <header class="section-header">
-                <div>
-                    <h2 id="user-listings-heading">Your Products</h2>
-                    <p>Manage the items you are currently selling</p>
-                </div>
-                <a class="btn btn-outline btn-sm" href="../pages/sell.html">Post new item</a>
-            </header>
-
-            <div class="user-listings-grid" id="user-listings-grid">
+          <header class="profile-header">
+            <div class="profile-title-row">
+              <h1 id="profile-heading">Profile Settings</h1>
+              <div id="role-badge-container"></div>
             </div>
+          </header>
+
+          <form
+            aria-labelledby="profile-heading"
+            class="profile-form"
+            id="profile-form"
+          >
+            <div class="form-row">
+              <div class="form-group">
+                <label for="profile-name">Full Name</label>
+                <input id="profile-name" name="name" required type="text" />
+              </div>
+              <div class="form-group">
+                <label for="profile-email">Email Address</label>
+                <input id="profile-email" name="email" required type="email" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="profile-city">City</label>
+              <select
+                class="form-select"
+                id="profile-city"
+                name="city"
+                required
+              >
+                <option value="">Select your city...</option>
+                <option value="Cape Town">Cape Town</option>
+                <option value="Johannesburg">Johannesburg</option>
+                <option value="Pretoria">Pretoria</option>
+                <option value="Durban">Durban</option>
+                <option value="Port Elizabeth">Port Elizabeth</option>
+                <option value="East London">East London</option>
+                <option value="Bloemfontein">Bloemfontein</option>
+                <option value="Kimberley">Kimberley</option>
+                <option value="Mbombela">Mbombela</option>
+                <option value="Pietermaritzburg">Pietermaritzburg</option>
+                <option value="Rustenburg">Rustenburg</option>
+                <option value="Polokwane">Polokwane</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="profile-bio">About Me (Bio)</label>
+              <textarea
+                id="profile-bio"
+                name="bio"
+                placeholder="Tell buyers and sellers a bit about yourself..."
+                rows="4"
+              ></textarea>
+            </div>
+
+            <div class="profile-actions">
+              <button class="btn btn-primary" type="submit">
+                Save Changes
+              </button>
+              <button class="btn btn-ghost" id="btn-logout" type="button">
+                Sign Out
+              </button>
+            </div>
+          </form>
         </section>
 
-    </div>
-</main>
+        <section
+          aria-labelledby="user-listings-heading"
+          class="user-listings-section"
+          id="user-listings-section"
+          style="display: none"
+        >
+          <header class="section-header">
+            <div>
+              <h2 id="user-listings-heading">Your Products</h2>
+              <p>Manage the items you are currently selling</p>
+            </div>
+            <a class="btn btn-outline btn-sm" href="../pages/sell.html"
+              >Post new item</a
+            >
+          </header>
 
-<footer id="footer"></footer>
+          <div class="user-listings-grid" id="user-listings-grid"></div>
+        </section>
+      </div>
+    </main>
 
-<script src="profile.js" type="module"></script>
-</body>
+    <footer id="footer"></footer>
+
+    <script src="profile.js" type="module"></script>
+  </body>
 </html>

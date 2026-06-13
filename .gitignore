@@ -13,7 +13,6 @@ node_modules
 dist
 dist-ssr
 *.local
-.htaccess
 .env
 .env.local
 .fallow
@@ -44,4 +43,3 @@ dist-ssr
 /backend/phpcs.phar
 frontend/node_modules/vite
 frontend/node_modules/@biomejs/biome
-backend/config/env.php

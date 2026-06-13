@@ -1,3 +1,4 @@
+// @ts-nocheck
 import "@styles/components/toast.css";
 import alertIconUrl from "@assets/icons/alert-triangle.svg?raw";
 import checkIconUrl from "@assets/icons/square-check.svg?raw";

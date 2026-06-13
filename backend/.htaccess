@@ -1,0 +1,57 @@
+# PHP Config
+php_value display_errors Off
+php_value date.timezone Africa/Johannesburg
+
+# Force HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Force Apache to pass the Authorization header to PHP
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+# Handle CORS preflight OPTIONS requests before anything else
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^ - [L,R=204]
+
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "https://doubleddoge.github.io" # CHANGE THIS TO FRONTEND URL
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, X-API-Key, Authorization"
+    Header always set Access-Control-Allow-Credentials "true"
+    Header always set Access-Control-Max-Age "86400"
+</IfModule>
+
+# Block direct access to sensitive directories
+RedirectMatch 403 ^/config/.*$
+RedirectMatch 403 ^/middleware/.*$
+RedirectMatch 403 ^/models/.*$
+RedirectMatch 403 ^/database/.*$
+
+# Route to named PHP files (e.g. /auth/login -> api/auth/login.php)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-zA-Z0-9_\-]+)/([a-zA-Z0-9_\-]+)$ api/$1/$2.php [L,QSA]
+
+# Route to index files (e.g. /listings -> api/listings/index.php)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([a-zA-Z0-9_\-]+)$ api/$1/index.php [L,QSA]
+
+# Block access to any .env file
+<Files ".env">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Prevent directory listing
+Options -Indexes
+
+# Security headers
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "DENY"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

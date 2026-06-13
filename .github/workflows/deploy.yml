@@ -1,12 +1,6 @@
 name: Deploy
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "**/frontend/**"
-      - "**/backend/**"
-      - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
 concurrency:
