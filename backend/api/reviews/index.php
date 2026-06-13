@@ -1,4 +1,7 @@
 <?php
+/**
+ * Reviews list and create endpoint.
+ */
 
 declare(strict_types=1);
 
@@ -6,6 +9,7 @@ require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/Review.php';
 
+\App\Middleware\applyCors();
 
 $method = $_SERVER['REQUEST_METHOD'];
 

@@ -5,6 +5,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../models/User.php';
 
+\App\Middleware\applyCors();
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['error' => 'Method not allowed.']);
@@ -56,8 +58,10 @@ unset($user['password_hash']);
 
 http_response_code(200);
 header('Content-Type: application/json');
-echo json_encode([
-    'token' => $token,
-    'user'  => $user,
-]);
+echo json_encode(
+    [
+        'token' => $token,
+        'user'  => $user,
+    ]
+);
 exit;

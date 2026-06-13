@@ -92,6 +92,13 @@ class Order
         }
     }
 
+    /**
+     * Update order status.
+     *
+     * @param int    $id     The order ID.
+     * @param string $status The new status.
+     * @return bool True if status was updated, false otherwise.
+     */
     public static function updateStatus(int $id, string $status): bool
     {
         $allowed = ['pending', 'confirmed', 'completed', 'cancelled'];

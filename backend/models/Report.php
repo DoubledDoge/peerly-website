@@ -58,6 +58,14 @@ class Report
         return (int) getDB()->lastInsertId();
     }
 
+    /**
+     * Resolve a report.
+     *
+     * @param int    $id         The report ID.
+     * @param int    $resolvedBy The user ID who resolved the report.
+     * @param string $status     The new status.
+     * @return bool True if report was resolved, false otherwise.
+     */
     public static function resolve(
         int $id,
         int $resolvedBy,
@@ -68,11 +76,11 @@ class Report
             return false;
         }
 
-        $stmt = getDB()->prepare("
-            UPDATE reports
-            SET    status = ?, resolved_by = ?
-            WHERE  id = ?
-        ");
+        $stmt = getDB()->prepare(
+            "UPDATE reports
+             SET    status = ?, resolved_by = ?
+             WHERE  id = ?"
+        );
         $stmt->execute([$status, $resolvedBy, $id]);
         return $stmt->rowCount() > 0;
     }

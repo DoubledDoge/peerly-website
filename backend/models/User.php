@@ -130,11 +130,17 @@ class User
         return $stmt->rowCount() > 0;
     }
 
+    /**
+     * Upgrade a user to seller status.
+     *
+     * @param int $id The user ID.
+     * @return void
+     */
     public static function upgradeToSeller(int $id): void
     {
-        getDB()->prepare("
-            UPDATE users SET role = 'seller'
-            WHERE  id = ? AND role = 'buyer'
-        ")->execute([$id]);
+        getDB()->prepare(
+            "UPDATE users SET role = 'seller'
+             WHERE  id = ? AND role = 'buyer'"
+        )->execute([$id]);
     }
 }

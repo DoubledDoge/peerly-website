@@ -49,16 +49,22 @@ class Review
         return (int) getDB()->lastInsertId();
     }
 
+    /**
+     * Find a review by ID.
+     *
+     * @param int $id The review ID.
+     * @return array|null The review data or null if not found.
+     */
     public static function findById(int $id): ?array
     {
-        $stmt = getDB()->prepare("
-            SELECT r.id, r.rating, r.comment, r.created_at,
-                   u.name AS reviewer_name
-            FROM   reviews r
-            JOIN   users u ON u.id = r.reviewer_id
-            WHERE  r.id = ?
-            LIMIT  1
-        ");
+        $stmt = getDB()->prepare(
+            "SELECT r.id, r.rating, r.comment, r.created_at,
+                    u.name AS reviewer_name
+             FROM   reviews r
+             JOIN   users u ON u.id = r.reviewer_id
+             WHERE  r.id = ?
+             LIMIT  1"
+        );
         $stmt->execute([$id]);
         return $stmt->fetch() ?: null;
     }

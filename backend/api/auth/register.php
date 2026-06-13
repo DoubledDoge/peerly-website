@@ -5,6 +5,8 @@ declare(strict_types=1);
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../models/User.php';
 
+\App\Middleware\applyCors();
+
 use function App\Config\getDB;
 use App\Models\User;
 
@@ -31,11 +33,10 @@ if (!\filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors['email'] = 'A valid email address is required.';
 }
 
-if (
-    !\preg_match(
-        '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\':"\\\\|,.<>\/?]).{8,}$/',
-        $password
-    )
+if (!\preg_match(
+    '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\':"\\\\|,.<>\/?]).{8,}$/',
+    $password
+)
 ) {
     $errors['password'] =
         'Password must be 8+ characters with uppercase, lowercase, number, and symbol.';
@@ -68,10 +69,10 @@ $token     = \bin2hex(\random_bytes(32));
 $tokenHash = \hash('sha256', $token);
 $expiresAt = \date('Y-m-d H:i:s', \strtotime('+30 days'));
 
-getDB()->prepare("
-    INSERT INTO sessions (user_id, token_hash, expires_at)
-    VALUES (?, ?, ?)
-")->execute([$userId, $tokenHash, $expiresAt]);
+getDB()->prepare(
+    "INSERT INTO sessions (user_id, token_hash, expires_at)
+    VALUES (?, ?, ?)"
+)->execute([$userId, $tokenHash, $expiresAt]);
 
 $user = User::findById($userId);
 

@@ -74,6 +74,11 @@ function requireRole(string|array $roles): array
     return $user;
 }
 
+/**
+ * Optionally authenticate the user.
+ *
+ * @return array|null User data if authenticated, null otherwise.
+ */
 function optionalAuth(): ?array
 {
     return resolveUser();

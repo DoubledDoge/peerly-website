@@ -166,6 +166,13 @@ class Listing
         return $stmt->rowCount() > 0;
     }
 
+    /**
+     * Delete a listing owned by a seller.
+     *
+     * @param int $id       The listing ID.
+     * @param int $sellerId The seller ID.
+     * @return bool True if listing was deleted, false otherwise.
+     */
     public static function delete(int $id, int $sellerId): bool
     {
         $stmt = getDB()->prepare(

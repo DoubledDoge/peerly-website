@@ -7,6 +7,8 @@ require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Listing.php';
 
+\App\Middleware\applyCors();
+
 $id = (int) ($_GET['id'] ?? 0);
 if (!$id) {
     http_response_code(400);
@@ -41,9 +43,14 @@ if ($method === 'PUT') {
     }
 
     $body   = json_decode(file_get_contents('php://input'), true) ?? [];
-    $fields = array_intersect_key($body, array_flip([
-        'title', 'description', 'price', 'category', 'photo_url', 'status'
-    ]));
+    $fields = array_intersect_key(
+        $body,
+        array_flip(
+            [
+                'title', 'description', 'price', 'category', 'photo_url', 'status'
+            ]
+        )
+    );
 
     if (isset($fields['price']) && ((float) $fields['price'] <= 0)) {
         http_response_code(422);

@@ -62,7 +62,9 @@ if ($method === 'PUT') {
 
     if (!$updated) {
         http_response_code(400);
-        echo json_encode(['error' => 'Could not update report. Check ID and status value.']);
+        echo json_encode(
+            ['error' => 'Could not update report. Check ID and status value.']
+        );
         exit;
     }
 

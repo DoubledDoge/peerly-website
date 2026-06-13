@@ -1,7 +1,15 @@
 <?php
+/**
+ * Environment configuration handler.
+ */
 
 namespace App\Config;
 
+/**
+ * Apply environment variables.
+ *
+ * @return void
+ */
 function applyEnv(): void
 {
     if (defined('DB_HOST')) {

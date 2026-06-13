@@ -7,6 +7,8 @@ require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Listing.php';
 
+\App\Middleware\applyCors();
+
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method === 'GET') {
@@ -67,13 +69,16 @@ if ($method === 'POST') {
         exit;
     }
 
-    $id = \App\Models\Listing::create((int) $user['id'], [
-        'title'       => $title,
-        'description' => $description,
-        'price'       => (float) $price,
-        'category'    => $category,
-        'photo_url'   => $photoUrl,
-    ]);
+    $id = \App\Models\Listing::create(
+        (int) $user['id'],
+        [
+            'title'       => $title,
+            'description' => $description,
+            'price'       => (float) $price,
+            'category'    => $category,
+            'photo_url'   => $photoUrl,
+        ]
+    );
 
     $listing = \App\Models\Listing::findById($id);
 

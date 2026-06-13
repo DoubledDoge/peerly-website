@@ -7,6 +7,8 @@ require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Listing.php';
 
+\App\Middleware\applyCors();
+
 $method = $_SERVER['REQUEST_METHOD'];
 $id     = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
@@ -57,9 +59,14 @@ if ($method === 'PUT' && $id !== null) {
     }
 
     $body   = json_decode(file_get_contents('php://input'), true) ?? [];
-    $fields = array_intersect_key($body, array_flip([
-        'name', 'city', 'bio', 'avatar_url'
-    ]));
+    $fields = array_intersect_key(
+        $body,
+        array_flip(
+            [
+                'name', 'city', 'bio', 'avatar_url'
+            ]
+        )
+    );
 
     if ($isAdmin) {
         if (isset($body['role'])) {

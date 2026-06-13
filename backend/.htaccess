@@ -12,39 +12,30 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 RewriteCond %{HTTP:Authorization} ^(.*)
 RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 
-# Handle CORS preflight OPTIONS requests before anything else
-RewriteCond %{REQUEST_METHOD} OPTIONS
-RewriteRule ^ - [L,R=204]
-
+# CORS headers
 <IfModule mod_headers.c>
-    Header always set Access-Control-Allow-Origin "https://doubleddoge.github.io" # CHANGE THIS TO FRONTEND URL
+    Header always set Access-Control-Allow-Origin "https://doubleddoge.github.io"
     Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
     Header always set Access-Control-Allow-Headers "Content-Type, X-API-Key, Authorization"
     Header always set Access-Control-Allow-Credentials "true"
     Header always set Access-Control-Max-Age "86400"
 </IfModule>
 
+# Handle CORS preflight OPTIONS requests
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^ - [L]
+
 # Block direct access to sensitive directories
-RedirectMatch 403 ^/config/.*$
-RedirectMatch 403 ^/middleware/.*$
-RedirectMatch 403 ^/models/.*$
-RedirectMatch 403 ^/database/.*$
-
-# Route to named PHP files (e.g. /auth/login -> api/auth/login.php)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([a-zA-Z0-9_\-]+)/([a-zA-Z0-9_\-]+)$ api/$1/$2.php [L,QSA]
-
-# Route to index files (e.g. /listings -> api/listings/index.php)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([a-zA-Z0-9_\-]+)$ api/$1/index.php [L,QSA]
-
-# Block access to any .env file
-<Files ".env">
+<FilesMatch "^(config|middleware|models|database)">
     Order allow,deny
     Deny from all
-</Files>
+</FilesMatch>
+
+# Block .env files
+<FilesMatch "\.env$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
 
 # Prevent directory listing
 Options -Indexes
@@ -55,3 +46,17 @@ Options -Indexes
     Header always set X-Content-Type-Options "nosniff"
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
+
+# URL Routing
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/([a-zA-Z0-9_\-]+)/([a-zA-Z0-9_\-]+)/?$ api/$1/$2.php [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/([a-zA-Z0-9_\-]+)/?$ api/$1/index.php [L,QSA]
+
+# Fallback to index.php for root
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^/?$ backend/index.php [L,QSA]
