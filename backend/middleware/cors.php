@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CORS (Cross-Origin Resource Sharing) middleware.
  */

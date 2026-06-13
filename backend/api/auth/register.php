@@ -33,10 +33,11 @@ if (!\filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $errors['email'] = 'A valid email address is required.';
 }
 
-if (!\preg_match(
-    '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\':"\\\\|,.<>\/?]).{8,}$/',
-    $password
-)
+if (
+    !\preg_match(
+        '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};\':"\\\\|,.<>\/?]).{8,}$/',
+        $password
+    )
 ) {
     $errors['password'] =
         'Password must be 8+ characters with uppercase, lowercase, number, and symbol.';

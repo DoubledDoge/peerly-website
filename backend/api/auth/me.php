@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Get current user endpoint.
  */
