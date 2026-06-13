@@ -2,15 +2,11 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../models/User.php';
 
-use function App\Middleware\applyCors;
 use function App\Config\getDB;
 use App\Models\User;
-
-applyCors();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     \http_response_code(405);

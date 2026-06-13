@@ -3,13 +3,10 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../config/db.php';
-require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Order.php';
 require_once __DIR__ . '/../../models/Listing.php';
-
-\App\Middleware\applyCors();
 
 $method = $_SERVER['REQUEST_METHOD'];
 $user   = \App\Middleware\requireAuth();
