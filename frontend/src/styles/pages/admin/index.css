@@ -41,10 +41,10 @@
 .metric-card--alert {
 	border-color: var(--color-error);
 	background-color: var(--color-error-bg);
-}
 
-.metric-card--alert .metric-value {
-	color: var(--color-error);
+	.metric-value {
+		color: var(--color-error);
+	}
 }
 
 .metric-icon {

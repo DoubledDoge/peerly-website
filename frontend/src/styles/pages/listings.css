@@ -117,11 +117,6 @@
 		transform 200ms ease,
 		box-shadow 200ms ease;
 
-	&:hover {
-		transform: translateY(-4px);
-		box-shadow: var(--shadow-md);
-	}
-
 	.card-media {
 		position: relative;
 		height: 220px;
@@ -225,6 +220,11 @@
 			}
 		}
 	}
+
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-md);
+	}
 }
 
 /* New Pagination Styles */
@@ -259,16 +259,16 @@
 		color: var(--primary-accent);
 	}
 
-	&.active {
-		background-color: var(--primary-accent);
-		color: white;
-		border-color: var(--primary-accent);
-	}
-
 	&:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
 		background-color: var(--bg-subtle);
+	}
+
+	&.active {
+		background-color: var(--primary-accent);
+		color: white;
+		border-color: var(--primary-accent);
 	}
 }
 
