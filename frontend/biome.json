@@ -16,7 +16,6 @@
 	},
 	"linter": {
 		"enabled": true,
-		"preset": "recommended"
 	},
 	"javascript": {
 		"formatter": {
