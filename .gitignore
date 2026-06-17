@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+
 dist
 dist-ssr
 *.local
@@ -26,3 +27,4 @@ dist-ssr
 *.sw?
 
 /frontend/node_modules/**
+pnpm-lock.yaml
