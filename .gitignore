@@ -27,5 +27,3 @@ dist-ssr
 *.sw?
 
 /frontend/node_modules/**
-pnpm-lock.yaml
-frontend/pnpm-lock.yaml
