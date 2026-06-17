@@ -63,13 +63,6 @@ peerly-website/
 
 ## Local Development
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/)
-- [pnpm](https://pnpm.io/)
-- PHP
-- MySQL
-
 ### Frontend
 
 ```bash
