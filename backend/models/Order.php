@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use PDOException;
+
 use function App\Config\getDB;
 
 class Order

@@ -43,11 +43,11 @@ function applyEnv(): void
         exit;
     }
 
-    define('DB_HOST',        $env['DB_HOST']        ?? '127.0.0.1');
-    define('DB_PORT',        $env['DB_PORT']        ?? '3306');
-    define('DB_NAME',        $env['DB_NAME']        ?? '');
-    define('DB_USER',        $env['DB_USER']        ?? '');
-    define('DB_PASS',        $env['DB_PASS']        ?? '');
+    define('DB_HOST', $env['DB_HOST'] ?? '127.0.0.1');
+    define('DB_PORT', $env['DB_PORT'] ?? '3306');
+    define('DB_NAME', $env['DB_NAME'] ?? '');
+    define('DB_USER', $env['DB_USER'] ?? '');
+    define('DB_PASS', $env['DB_PASS'] ?? '');
     define('ALLOWED_ORIGIN', $env['ALLOWED_ORIGIN'] ?? '');
-    define('API_KEY',        $env['API_KEY']        ?? '');
+    define('API_KEY', $env['API_KEY'] ?? '');
 }
