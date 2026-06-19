@@ -14,16 +14,16 @@
 		border-color: var(--border-colour);
 	}
 
-  > div{
-    &:first-child {
-      aspect-ratio: 4 / 3;
-      background-color: var(--bg-muted);
-    }
+	> div {
+		&:first-child {
+			aspect-ratio: 4 / 3;
+			background-color: var(--bg-muted);
+		}
 
-    &:last-child {
-      padding: 1rem;
-    }
-  }
+		&:last-child {
+			padding: 1rem;
+		}
+	}
 }
 
 .skeleton-card {
@@ -32,48 +32,48 @@
 	border-radius: var(--radius-xl);
 	overflow: hidden;
 
-  > div{
-    &:first-child {
-      aspect-ratio: 4 / 3;
-      background: linear-gradient(
-        90deg,
-        var(--skeleton-base) 25%,
-        var(--skeleton-shine) 50%,
-        var(--skeleton-base) 75%
-      );
-      background-size: 200% 100%;
-      animation: shimmer 1.6s ease-in-out infinite;
-    }
+	> div {
+		&:first-child {
+			aspect-ratio: 4 / 3;
+			background: linear-gradient(
+				90deg,
+				var(--skeleton-base) 25%,
+				var(--skeleton-shine) 50%,
+				var(--skeleton-base) 75%
+			);
+			background-size: 200% 100%;
+			animation: shimmer 1.6s ease-in-out infinite;
+		}
 
-    &:last-child {
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
+		&:last-child {
+			padding: 1rem;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
 
-      > span {
-        display: block;
-        height: 0.875rem;
-        border-radius: var(--radius-md);
-        background: linear-gradient(
-          90deg,
-          var(--skeleton-base) 25%,
-          var(--skeleton-shine) 50%,
-          var(--skeleton-base) 75%
-        );
-        background-size: 200% 100%;
-        animation: shimmer 1.6s ease-in-out infinite;
+			> span {
+				display: block;
+				height: 0.875rem;
+				border-radius: var(--radius-md);
+				background: linear-gradient(
+					90deg,
+					var(--skeleton-base) 25%,
+					var(--skeleton-shine) 50%,
+					var(--skeleton-base) 75%
+				);
+				background-size: 200% 100%;
+				animation: shimmer 1.6s ease-in-out infinite;
 
-        &:nth-child(1) {
-          width: 40%;
-        }
-        &:nth-child(2) {
-          width: 100%;
-        }
-        &:nth-child(3) {
-          width: 65%;
-        }
-      }
-    }
-  }
+				&:nth-child(1) {
+					width: 40%;
+				}
+				&:nth-child(2) {
+					width: 100%;
+				}
+				&:nth-child(3) {
+					width: 65%;
+				}
+			}
+		}
+	}
 }

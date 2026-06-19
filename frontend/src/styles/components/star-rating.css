@@ -3,27 +3,27 @@
 	align-items: center;
 	gap: 0.5rem;
 
-  .stars{
-    display: inline-block;
-    font-size: 1rem;
+	.stars {
+		display: inline-block;
+		font-size: 1rem;
 
-    /*noinspection CssUnresolvedCustomProperty*/
-    background-image: linear-gradient(
-      to right,
-      var(--color-rating) 0%,
-      var(--color-rating) calc(var(--rating) * 20%),
-      var(--border-colour) calc(var(--rating) * 20%),
-      var(--border-colour) 100%
-    );
+		/*noinspection CssUnresolvedCustomProperty*/
+		background-image: linear-gradient(
+			to right,
+			var(--color-rating) 0%,
+			var(--color-rating) calc(var(--rating) * 20%),
+			var(--border-colour) calc(var(--rating) * 20%),
+			var(--border-colour) 100%
+		);
 
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-  }
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		color: transparent;
+	}
 
-  .rating-number{
-    font-size: 0.85em;
-    color: var(--text-muted);
-  }
+	.rating-number {
+		font-size: 0.85em;
+		color: var(--text-muted);
+	}
 }

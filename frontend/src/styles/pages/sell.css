@@ -13,9 +13,9 @@
 	box-shadow: var(--shadow-sm);
 	padding: 3rem;
 
-  @media (width <= 640px) {
-    padding: 2rem 1.5rem;
-  }
+	@media (width <= 640px) {
+		padding: 2rem 1.5rem;
+	}
 }
 
 .sell-header {
@@ -46,9 +46,9 @@
 	grid-template-columns: 1fr 1fr;
 	gap: 1.5rem;
 
-  @media (width <= 640px){
-    grid-template-columns: 1fr;
-  }
+	@media (width <= 640px) {
+		grid-template-columns: 1fr;
+	}
 }
 
 .form-group {
@@ -199,14 +199,15 @@
 	margin-block-start: 1.5rem;
 	padding-block-start: 1.5rem;
 	border-top: 1px solid var(--border-subtle);
-  
-  @media (width <= 640px){
-    flex-direction: column;
 
-    button, a{
-      width: 100%;
-      justify-content: center;
-      text-align: center;
-    }
-  }
+	@media (width <= 640px) {
+		flex-direction: column;
+
+		button,
+		a {
+			width: 100%;
+			justify-content: center;
+			text-align: center;
+		}
+	}
 }

@@ -8,33 +8,33 @@
 	font-weight: 600;
 	cursor: pointer;
 
-  &[data-status="pending"] {
-    color: var(--color-admin-text);
-    border-color: var(--color-admin-border);
-    background-color: var(--color-admin-bg);
-  }
+	&[data-status="pending"] {
+		color: var(--color-admin-text);
+		border-color: var(--color-admin-border);
+		background-color: var(--color-admin-bg);
+	}
 
-  &[data-status="processing"] {
-    color: var(--primary-accent);
-    border-color: var(--primary-subtle);
-    background-color: var(--primary-subtle);
-  }
+	&[data-status="processing"] {
+		color: var(--primary-accent);
+		border-color: var(--primary-subtle);
+		background-color: var(--primary-subtle);
+	}
 
-  &[data-status="shipped"] {
-    color: var(--color-mod-text);
-    border-color: var(--color-mod-border);
-    background-color: var(--color-mod-bg);
-  }
+	&[data-status="shipped"] {
+		color: var(--color-mod-text);
+		border-color: var(--color-mod-border);
+		background-color: var(--color-mod-bg);
+	}
 
-  &[data-status="delivered"]{
-    color: var(--color-success);
-    border-color: var(--color-success-bg);
-    background-color: var(--color-success-bg);
-  }
+	&[data-status="delivered"] {
+		color: var(--color-success);
+		border-color: var(--color-success-bg);
+		background-color: var(--color-success-bg);
+	}
 
-  &[data-status="cancelled"]{
-    color: var(--color-error);
-    border-color: var(--color-error-bg);
-    background-color: var(--color-error-bg);
-  }
+	&[data-status="cancelled"] {
+		color: var(--color-error);
+		border-color: var(--color-error-bg);
+		background-color: var(--color-error-bg);
+	}
 }

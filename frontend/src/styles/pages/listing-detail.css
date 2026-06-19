@@ -24,19 +24,19 @@
 	gap: 4rem;
 	align-items: start;
 
-  @media (width <= 900px){
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+	@media (width <= 900px) {
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
 }
 
 .product-gallery {
 	position: sticky;
 	top: calc(var(--header-height) + 2rem);
 
-  @media (width <= 900px){
-    position: static;
-  }
+	@media (width <= 900px) {
+		position: static;
+	}
 }
 
 .main-image-container {

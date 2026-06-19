@@ -52,10 +52,10 @@
 	gap: 3rem;
 	align-items: start;
 
-  @media (width <= 900px){
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+	@media (width <= 900px) {
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
 }
 
 .cart-items-list {
@@ -156,9 +156,9 @@
 	position: sticky;
 	top: calc(var(--header-height) + 2rem);
 
-  @media (width <= 900px){
-    position: static;
-  }
+	@media (width <= 900px) {
+		position: static;
+	}
 }
 
 .summary-card {
