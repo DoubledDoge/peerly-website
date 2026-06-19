@@ -12,18 +12,16 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 RewriteCond %{HTTP:Authorization} ^(.*)
 RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 
-# CORS headers
-<IfModule mod_headers.c>
-    Header always set Access-Control-Allow-Origin "https://doubleddoge.github.io"
-    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-    Header always set Access-Control-Allow-Headers "Content-Type, X-API-Key, Authorization"
-    Header always set Access-Control-Allow-Credentials "true"
-    Header always set Access-Control-Max-Age "86400"
-</IfModule>
-
 # Handle CORS preflight OPTIONS requests
 RewriteCond %{REQUEST_METHOD} OPTIONS
-RewriteRule ^ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/([a-zA-Z0-9_\-]+)/([a-zA-Z0-9_\-]+)/?$ api/$1/$2.php [L,QSA]
+
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^api/([a-zA-Z0-9_\-]+)/?$ api/$1/index.php [L,QSA]
 
 # Block direct access to sensitive directories
 <FilesMatch "^(config|middleware|models|database)">
@@ -59,4 +57,4 @@ RewriteRule ^api/([a-zA-Z0-9_\-]+)/?$ api/$1/index.php [L,QSA]
 # Fallback to index.php for root
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^/?$ backend/index.php [L,QSA]
+RewriteRule ^/?$ index.php [L,QSA]

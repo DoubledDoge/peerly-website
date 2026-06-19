@@ -6,7 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+phpcs.phar
 
 dist
 dist-ssr
@@ -27,3 +27,4 @@ dist-ssr
 *.sw?
 
 /frontend/node_modules/**
+

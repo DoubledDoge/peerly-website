@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Reviews list and create endpoint.
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../config/db.php';
@@ -74,12 +70,12 @@ if ($method === 'POST') {
         exit;
     }
 
-    $id     = \App\Models\Review::create(
-        reviewerId: (int) $user['id'],
-        listingId:  $listingId,
-        sellerId:   $sellerId,
-        rating:     $rating,
-        comment:    $comment
+    $id = \App\Models\Review::create(
+        (int) $user['id'],
+        $listingId,
+        $sellerId,
+        $rating,
+        $comment
     );
     $review = \App\Models\Review::findById($id);
 

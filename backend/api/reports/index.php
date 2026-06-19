@@ -14,9 +14,9 @@ if ($method === 'GET') {
     \App\Middleware\requireRole(['moderator', 'admin']);
 
     $result = \App\Models\Report::list(
-        status:  $_GET['status']   ?? 'open',
-        page:    (int) ($_GET['page']     ?? 1),
-        perPage: (int) ($_GET['per_page'] ?? 20)
+        $_GET['status']   ?? 'open',
+        (int) ($_GET['page']     ?? 1),
+        (int) ($_GET['per_page'] ?? 20)
     );
 
     http_response_code(200);

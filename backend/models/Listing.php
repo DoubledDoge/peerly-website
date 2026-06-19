@@ -64,11 +64,17 @@ class Listing
             $params[] = $term;
         }
 
-        $orderBy = match ($filters['sort'] ?? 'newest') {
-            'price_asc'  => 'l.price ASC',
-            'price_desc' => 'l.price DESC',
-            default      => 'l.created_at DESC',
-        };
+        switch ($filters['sort'] ?? 'newest') {
+            case 'price_asc':
+                $orderBy = 'l.price ASC';
+                break;
+            case 'price_desc':
+                $orderBy = 'l.price DESC';
+                break;
+            default:
+                $orderBy = 'l.created_at DESC';
+                break;
+        }
 
         $whereStr = implode(' AND ', $where);
         $pdo      = getDB();
@@ -85,7 +91,7 @@ class Listing
             ORDER  BY {$orderBy}
             LIMIT  ? OFFSET ?
         ");
-        $stmt->execute([...$params, $perPage, $offset]);
+        $stmt->execute(array_merge($params, [$perPage, $offset]));
         $rows = $stmt->fetchAll();
 
         foreach ($rows as &$row) {

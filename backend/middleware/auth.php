@@ -6,13 +6,15 @@ namespace App\Middleware;
 
 use function App\Config\getDB;
 
-function getBearerToken(): ?string
+function getBearerToken()
 {
-    $header = $_SERVER['HTTP_AUTHORIZATION']
-           ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
-           ?? '';
+    $header = isset($_SERVER['HTTP_AUTHORIZATION'])
+        ? $_SERVER['HTTP_AUTHORIZATION']
+        : (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])
+            ? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+            : '');
 
-    if (str_starts_with($header, 'Bearer ')) {
+    if (substr($header, 0, 7) === 'Bearer ') {
         $token = trim(substr($header, 7));
         return $token !== '' ? $token : null;
     }
@@ -20,7 +22,7 @@ function getBearerToken(): ?string
     return null;
 }
 
-function resolveUser(): ?array
+function resolveUser()
 {
     $token = getBearerToken();
 
@@ -47,7 +49,7 @@ function resolveUser(): ?array
     return $row ?: null;
 }
 
-function requireAuth(): array
+function requireAuth()
 {
     $user = resolveUser();
 
@@ -60,7 +62,15 @@ function requireAuth(): array
     return $user;
 }
 
-function requireRole(string|array $roles): array
+/**
+ * Require the authenticated user to have one of the given roles.
+ *
+ * @param string|array $roles A single role string or an array of role strings.
+ *                             (PHP 7.4 has no union type hints, so no type
+ *                             declaration is used here - validated at runtime
+ *                             via (array) cast below.)
+ */
+function requireRole($roles)
 {
     $user  = requireAuth();
     $roles = (array) $roles;
@@ -79,7 +89,7 @@ function requireRole(string|array $roles): array
  *
  * @return array|null User data if authenticated, null otherwise.
  */
-function optionalAuth(): ?array
+function optionalAuth()
 {
     return resolveUser();
 }

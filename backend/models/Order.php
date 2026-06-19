@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use PDOException;
 use function App\Config\getDB;
 
 class Order
@@ -41,7 +42,6 @@ class Order
         return $stmt->fetchAll();
     }
 
-
     public static function listAll(int $page = 1, int $perPage = 50): array
     {
         $offset = ($page - 1) * $perPage;
@@ -64,11 +64,16 @@ class Order
         return $stmt->fetchAll();
     }
 
-    public static function create(
-        int $buyerId,
-        int $listingId,
-        float $priceAtSale
-    ): int {
+    /**
+     * Create a new order and mark the listing as sold.
+     *
+     * @param int   $buyerId     The buyer's user ID.
+     * @param int   $listingId   The listing being purchased.
+     * @param float $priceAtSale The price at time of sale.
+     * @return int The new order's ID.
+     */
+    public static function create(int $buyerId, int $listingId, float $priceAtSale): int
+    {
         $pdo = getDB();
         $pdo->beginTransaction();
 

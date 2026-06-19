@@ -3,7 +3,7 @@
 <div align="center">
 
 ![Vite](https://img.shields.io/badge/Vite-8.x-646CFF?style=flat-square&logo=vite&logoColor=white)
-![PHP](https://img.shields.io/badge/PHP-8.5-777BB4?style=flat-square&logo=php&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-7.4-777BB4?style=flat-square&logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-8.x-4479A1?style=flat-square&logo=mysql&logoColor=white)
 ![Biome](https://img.shields.io/badge/Biome-2.x-60A5FA?style=flat-square&logo=biome&logoColor=white)
 ![GitHub Pages](https://img.shields.io/badge/Hosted-GitHub%20Pages-222222?style=flat-square&logo=github&logoColor=white)
@@ -101,25 +101,4 @@ mysql -u your_user -p your_database < database/schema.sql
 
 Refer to `.env.example` from the root for all required variables that may need to be set as part of GitHub secrets and elsewhere.
 
-### Backend
-
-This file lives only on the server and is never committed to the repository:
-
-```php
-<?php
-namespace App\Config;
-
-function applyEnv(): void
-{
-    if (defined('DB_HOST')) {
-        return;
-    }
-    define('DB_HOST', 'your_db_host');
-    define('DB_PORT', '3306');
-    define('DB_NAME', 'your_db_name');
-    define('DB_USER', 'your_db_user');
-    define('DB_PASS', 'your_db_password');
-    define('ALLOWED_ORIGIN', 'https://yourusername.github.io');
-    define('API_KEY',  'your_api_key_here');
-}
-```
+Do note that this only applies directly to the backend website, as the frontend is entirely static and only relies on a few GitHub secrets variables.

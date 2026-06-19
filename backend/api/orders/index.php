@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Orders list, create, and update endpoint.
- */
-
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../config/db.php';
@@ -19,9 +15,9 @@ $user   = \App\Middleware\requireAuth();
 
 if ($method === 'GET') {
     if (in_array($user['role'], ['admin', 'moderator'], true)) {
-        $page   = (int) ($_GET['page']     ?? 1);
+        $page    = (int) ($_GET['page']     ?? 1);
         $perPage = (int) ($_GET['per_page'] ?? 50);
-        $orders = \App\Models\Order::listAll($page, $perPage);
+        $orders  = \App\Models\Order::listAll($page, $perPage);
     } else {
         $orders = \App\Models\Order::listForUser((int) $user['id']);
     }
@@ -60,9 +56,9 @@ if ($method === 'POST') {
     }
 
     $orderId = \App\Models\Order::create(
-        buyerId:     (int) $user['id'],
-        listingId:   $listingId,
-        priceAtSale: (float) $listing['price']
+        (int) $user['id'],
+        $listingId,
+        (float) $listing['price']
     );
 
     $order = \App\Models\Order::findById($orderId);
@@ -82,8 +78,8 @@ if ($method === 'PUT') {
         exit;
     }
 
-    $id   = (int) ($_GET['id'] ?? 0);
-    $body = json_decode(file_get_contents('php://input'), true) ?? [];
+    $id     = (int) ($_GET['id'] ?? 0);
+    $body   = json_decode(file_get_contents('php://input'), true) ?? [];
     $status = trim($body['status'] ?? '');
 
     if (!$id || !$status) {
