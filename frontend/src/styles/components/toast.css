@@ -8,7 +8,7 @@
 	gap: 0.75rem;
 	z-index: 9999;
 	align-items: center;
-	pointer-events: none; /* Lets you click through the container */
+	pointer-events: none;
 }
 
 .toast {

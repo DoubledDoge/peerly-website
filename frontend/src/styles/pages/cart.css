@@ -1,6 +1,4 @@
-﻿/* src/styles/pages/cart.css */
-
-.cart-page {
+﻿.cart-page {
 	padding-block: 3rem 6rem;
 }
 
@@ -53,9 +51,13 @@
 	grid-template-columns: 1fr 380px;
 	gap: 3rem;
 	align-items: start;
+
+  @media (width <= 900px){
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 }
 
-/* Item List Styling */
 .cart-items-list {
 	list-style: none;
 	padding: 0;
@@ -150,10 +152,13 @@
 	}
 }
 
-/* Summary Panel Styling */
 .cart-summary-section {
 	position: sticky;
 	top: calc(var(--header-height) + 2rem);
+
+  @media (width <= 900px){
+    position: static;
+  }
 }
 
 .summary-card {
@@ -194,17 +199,6 @@
 	.full-width {
 		width: 100%;
 		justify-content: center;
-	}
-}
-
-@media (width <= 900px) {
-	.cart-layout {
-		grid-template-columns: 1fr;
-		gap: 2rem;
-	}
-
-	.cart-summary-section {
-		position: static;
 	}
 }
 

@@ -38,7 +38,7 @@ html {
 }
 
 body {
-	font-family: var(--font-sans), system-ui;
+	font-family: var(--font-family), system-ui;
 	font-size: 1rem;
 	line-height: 1.6;
 	-webkit-font-smoothing: antialiased;
@@ -115,8 +115,6 @@ p {
 	navigation: auto;
 }
 
-/* --- Layout Utilities --- */
-
 .container {
 	width: min(100%, var(--max-width));
 	margin-inline: auto;
@@ -147,8 +145,6 @@ p {
 		text-align: center;
 	}
 }
-
-/* --- Buttons --- */
 
 .btn {
 	display: inline-flex;
@@ -220,8 +216,6 @@ p {
 		}
 	}
 }
-
-/* --- Global Animations --- */
 
 @keyframes shimmer {
 	from {

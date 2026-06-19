@@ -6,21 +6,20 @@
 	border: 1px solid var(--border-subtle);
 	border-radius: var(--radius-lg);
 	overflow: hidden;
-}
 
-.admin-table th,
-.admin-table td {
-	padding: 1.25rem 1rem;
-	text-align: left;
-	border-bottom: 1px solid var(--border-subtle);
-	font-size: 0.95rem;
-	vertical-align: middle;
-}
+  th {
+    background-color: var(--bg-subtle);
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+  }
 
-.admin-table th {
-	background-color: var(--bg-subtle);
-	font-weight: 600;
-	color: var(--text-muted);
-	font-size: 0.85rem;
-	text-transform: uppercase;
+  th, td{
+    padding: 1.25rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 0.95rem;
+    vertical-align: middle;
+  }
 }

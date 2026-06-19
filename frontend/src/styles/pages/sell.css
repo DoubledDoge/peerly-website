@@ -12,6 +12,10 @@
 	border-radius: var(--radius-2xl);
 	box-shadow: var(--shadow-sm);
 	padding: 3rem;
+
+  @media (width <= 640px) {
+    padding: 2rem 1.5rem;
+  }
 }
 
 .sell-header {
@@ -41,6 +45,10 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 1.5rem;
+
+  @media (width <= 640px){
+    grid-template-columns: 1fr;
+  }
 }
 
 .form-group {
@@ -191,31 +199,14 @@
 	margin-block-start: 1.5rem;
 	padding-block-start: 1.5rem;
 	border-top: 1px solid var(--border-subtle);
-}
+  
+  @media (width <= 640px){
+    flex-direction: column;
 
-.icon-tabler-camera {
-	@media (prefers-color-scheme: dark) {
-		filter: invert(1);
-	}
-}
-
-@media (width <= 640px) {
-	.sell-container {
-		padding: 2rem 1.5rem;
-	}
-
-	.form-row {
-		grid-template-columns: 1fr;
-	}
-
-	.sell-actions {
-		flex-direction: column;
-
-		button,
-		a {
-			width: 100%;
-			justify-content: center;
-			text-align: center;
-		}
-	}
+    button, a{
+      width: 100%;
+      justify-content: center;
+      text-align: center;
+    }
+  }
 }

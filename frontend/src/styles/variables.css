@@ -16,14 +16,14 @@
 	--primary-muted: light-dark(oklch(88% 0.06 145), oklch(28% 0.08 145));
 
 	/* --- Semantic Status Colors --- */
-	--color-success: oklch(65% 0.15 150); /* Green */
+	--color-success: oklch(65% 0.15 150);
 	--color-success-bg: oklch(65% 0.15 150 / 15%);
 
-	--color-error: oklch(65% 0.15 25); /* Red */
+	--color-error: oklch(65% 0.15 25);
 	--color-error-dark: oklch(55% 0.2 25);
 	--color-error-bg: oklch(65% 0.15 25 / 15%);
 
-	--color-rating: oklch(80% 0.15 85); /* Yellow/Gold for stars */
+	--color-rating: oklch(80% 0.15 85);
 
 	/* --- Role Badges --- */
 	--color-admin-text: oklch(65% 0.15 45);
@@ -58,16 +58,14 @@
 	--shadow-md: 0 4px 6px oklch(0% 0 0 / 8%), 0 2px 4px oklch(0% 0 0 / 5%);
 	--shadow-xl: 0 20px 25px oklch(0% 0 0 / 8%), 0 8px 10px oklch(0% 0 0 / 4%);
 
-	/* --- Typography Families --- */
-	--font-sans: "Inter Variable", -apple-system, sans-serif;
-	--font-mono: "JetBrains Mono Variable", monospace;
+	--font-family: "Inter Variable", -apple-system, sans-serif;
 
 	/* --- Spacing & Layout --- */
 	--header-height: 4rem;
 	--max-width: 72rem;
 	--padding-x: 1.5rem;
 
-	/* --- Radii --- */
+	/* --- Radius --- */
 	--radius-sm: 0.25rem;
 	--radius-md: 0.5rem;
 	--radius-lg: 0.75rem;
@@ -75,10 +73,7 @@
 	--radius-2xl: 1.5rem;
 	--radius-full: 9999px;
 
-	/* --- Z-Indices --- */
 	--z-sticky: 50;
-	--z-overlay: 100;
-	--z-modal: 1000;
 
 	/* --- Misc --- */
 	--animation-angle: -90deg;
