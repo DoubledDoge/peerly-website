@@ -1,9 +1,17 @@
 {
 	"name": "peerly-frontend",
-	"author": "Dihan Britz",
+	"author": "DoubledDoge",
 	"readme": "../README.md",
-	"repository": "Unreleased",
+	"repository": "https://github.com/DoubledDoge/peerly-website",
 	"description": "Peerly - buy and sell directly with people around you. No middlemen, no businesses.",
+  "keywords": [
+    "peer-to-peer",
+    "e-commerce",
+    "trading",
+    "projects",
+    "website"
+  ],
+  "bugs": "https://github.com/DoubledDoge/peerly-website/issues",
 	"license": "MIT",
 	"main": "./src/index.html",
 	"private": true,
