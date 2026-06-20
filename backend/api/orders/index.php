@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Order.php';
 require_once __DIR__ . '/../../models/Listing.php';
+require_once __DIR__ . '/../../middleware/cors.php';
 
 \App\Middleware\applyCors();
 
