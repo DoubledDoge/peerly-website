@@ -15,9 +15,11 @@ A peer-to-peer marketplace built for people, not businesses. Buy and sell direct
 ## Table of Contents
 
 - [Repository Structure](#repository-structure)
+- [Deployment](#deployment)
 - [Local Development](#local-development)
 - [Database Setup](#database-setup)
 - [Environment Variables](#environment-variables)
+- [PHP Version Constraint](#php-version-constraint)
 
 ---
 
@@ -43,10 +45,10 @@ peerly-website/
 │   │   ├── users/
 │   │   ├── orders/
 │   │   ├── reports/
-│   │   └── Reviews/
+│   │   └── reviews/
 │   ├── models/             # User, Listing, Order, Review, Report
 │   ├── middleware/         # auth.php, cors.php
-│   ├── config/             # db.php
+│   ├── config/             # db.php, env.php
 │   └── .htaccess
 ├── database/
 │   └── schema.sql          # Full database schema
@@ -56,8 +58,21 @@ peerly-website/
 │       ├── codeql.yml      # JS security scanning
 │       ├── deploy.yml      # GitHub Pages + FTP deploy
 │       └── release.yml     # git-cliff changelog + GitHub Release
-└── .env.example            # Environment variable reference
+└── backend/.env.example    # Template for backend/.env and frontend/.env
 ```
+
+---
+
+## Deployment
+
+This project deploys to two separate platforms that do not share infrastructure:
+
+| Component | Platform | Notes |
+|---|---|---|
+| Frontend | GitHub Pages | Static build output from `frontend/`, deployed via `.github/workflows/deploy.yml` |
+| Backend | InfinityFree (shared hosting) | PHP 7.4, no shell access, deployed via FTP |
+
+Because the two are on different origins, **all API requests are cross-origin**. The backend's CORS middleware (`middleware/cors.php`) reads an allowed origin from `ALLOWED_ORIGIN` in `backend/.env` and sends it back as `Access-Control-Allow-Origin`. If you fork this project or change domains, update that value — a mismatch here is the most common cause of "it works locally but not when deployed" issues.
 
 ---
 
@@ -73,6 +88,8 @@ pnpm dev
 
 The dev server starts at `http://localhost:5173`. API requests to `/api/*` are proxied to `http://localhost:8080` automatically via the Vite config and can be adjusted as needed.
 
+You'll also need a `VITE_API_KEY` value available at build time (see [Environment Variables](#environment-variables)) — without it, requests to the backend will be rejected.
+
 ### Backend
 
 Start a PHP server rooted at the `backend/` directory on port 8080:
@@ -82,13 +99,13 @@ cd backend
 php -S localhost:8080
 ```
 
-Make sure `env.php` is present in the `backend/` directory with your local credentials.
+Before doing this, create `backend/.env` (copy `backend/.env.example` and fill in real values) — `config/env.php` reads credentials from this file at runtime. The server will return a `500` on every request if `.env` is missing.
 
 ---
 
 ## Database Setup
 
-1. Create a MySQL database
+1. Create a MySQL database.
 2. Import the schema:
 
 ```bash
@@ -99,6 +116,23 @@ mysql -u your_user -p your_database < database/schema.sql
 
 ## Environment Variables
 
-Refer to `.env.example` from the root for all required variables that may need to be set as part of GitHub secrets and elsewhere.
+Refer to `backend/.env.example` for all required variables. These live in `backend/.env` and are **never committed** - on InfinityFree this file is uploaded directly via FTP, and locally it sits in your own `backend/` directory.
 
-Do note that this only applies directly to the backend website, as the frontend is entirely static and only relies on a few GitHub secrets variables.
+| Variable | Used by
+|---|---|
+| `DB_HOST` | `config/db.php`
+| `DB_PORT` | `config/db.php`
+| `DB_NAME` | `config/db.php`
+| `DB_USER` | `config/db.php`
+| `DB_PASS` | `config/db.php`
+| `ALLOWED_ORIGIN` | `middleware/cors.php`
+| `API_KEY` | `middleware/cors.php`
+
+The frontend additionally needs a build-time variable, set via GitHub Actions secrets (or a local `.env` inside `frontend/` for local dev):
+
+| Variable | Used by | Notes |
+|---|---|---|
+| `VITE_API_KEY` | `frontend/src/utils/api.js` | Must match `API_KEY` in `backend/.env`. Sent as the `X-API-Key` header on every request. Since this ships in the static frontend build, treat it as a shared app identifier rather than a true secret — it's visible to anyone who inspects the deployed JS bundle. |
+| `VITE_API_BASE_URL` | `frontend/src/utils/api.js` | The deployed backend's base URL when not using the local Vite proxy |
+
+---
