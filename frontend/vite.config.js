@@ -52,6 +52,7 @@ export default defineConfig({
 				target: "", // CHANGE THIS to your backend URL
 				changeOrigin: true,
 				secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ""),
 			},
 		},
 	},
