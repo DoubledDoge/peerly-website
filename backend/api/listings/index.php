@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../../middleware/cors.php';
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../middleware/auth.php';
 require_once __DIR__ . '/../../models/User.php';
 require_once __DIR__ . '/../../models/Listing.php';
-require_once __DIR__ . '/../../middleware/cors.php';
 
 \App\Middleware\applyCors();
 
@@ -87,3 +87,6 @@ if ($method === 'POST') {
     echo json_encode(['listing' => $listing]);
     exit;
 }
+
+http_response_code(405);
+echo json_encode(['error' => 'Method not allowed.']);
