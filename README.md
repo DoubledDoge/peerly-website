@@ -8,7 +8,7 @@
 ![Biome](https://img.shields.io/badge/Biome-2.x-60A5FA?style=flat-square&logo=biome&logoColor=white)
 ![GitHub Pages](https://img.shields.io/badge/Hosted-GitHub%20Pages-222222?style=flat-square&logo=github&logoColor=white)
 
-A peer-to-peer marketplace built for people, not businesses. Buy and sell directly with others in your local area — no corporate middlemen, no listing fees.
+A peer-to-peer marketplace built for people, not businesses. Buy and sell directly with others in your local area - no corporate middlemen, no listing fees.
 
 </div>
 
@@ -88,8 +88,10 @@ pnpm dev
 
 The dev server starts at `http://localhost:5173`. API requests to `/api/*` are proxied to `http://localhost:8080` automatically via the Vite config and can be adjusted as needed.
 
-You'll also need a `VITE_API_KEY` value available at build time (see [Environment Variables](#environment-variables)) — without it, requests to the backend will be rejected.
+You'll also need a `VITE_API_KEY` value available at build time, without it, requests to the backend will be rejected.
 
+A `frontend/.env/` file is optional for local development, but if you want to test the deployed backend, you can create one with the following contents:
+```
 ### Backend
 
 Start a PHP server rooted at the `backend/` directory on port 8080:
@@ -99,7 +101,7 @@ cd backend
 php -S localhost:8080
 ```
 
-Before doing this, create `backend/.env` (copy `backend/.env.example` and fill in real values) — `config/env.php` reads credentials from this file at runtime. The server will return a `500` on every request if `.env` is missing.
+Before doing this, create `backend/.env` (copy `backend/.env.example` and fill in real values) - `config/env.php` reads credentials from this file at runtime. The server will return a `500` on every request if `.env` is missing.
 
 ---
 
