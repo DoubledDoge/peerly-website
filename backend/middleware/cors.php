@@ -9,7 +9,7 @@ require_once __DIR__ . '/../config/env.php';
 use function App\Config\applyEnv;
 
 /**
- * Apply CORS headers and handle OPTIONS requests.
+ * Apply CORS headers, handle method overriding, and validate the API key.
  *
  * @return void
  */
@@ -33,10 +33,16 @@ function applyCors(): void
         exit;
     }
 
-    // Enforce X-API-Key on every request past the OPTIONS preflight.
-    // This runs for every endpoint since applyCors() is the first call
-    // in each one.
-    $provided = isset($_SERVER['HTTP_X_API_KEY']) ? $_SERVER['HTTP_X_API_KEY'] : '';
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['_method'])) {
+        $override = strtoupper((string) $_GET['_method']);
+        if (in_array($override, ['PUT', 'DELETE'], true)) {
+            $_SERVER['REQUEST_METHOD'] = $override;
+        }
+    }
+
+    $provided = isset($_SERVER['HTTP_X_API_KEY'])
+        ? $_SERVER['HTTP_X_API_KEY']
+        : (isset($_GET['api_key']) ? (string) $_GET['api_key'] : '');
 
     if (!defined('API_KEY') || API_KEY === '' || !hash_equals(API_KEY, $provided)) {
         http_response_code(401);

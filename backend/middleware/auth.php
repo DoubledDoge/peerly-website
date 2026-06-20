@@ -6,6 +6,11 @@ namespace App\Middleware;
 
 use function App\Config\getDB;
 
+/**
+ * Retrieve the session token from the request.
+ *
+ * @return string|null
+ */
 function getBearerToken()
 {
     $header = isset($_SERVER['HTTP_AUTHORIZATION'])
@@ -16,7 +21,13 @@ function getBearerToken()
 
     if (substr($header, 0, 7) === 'Bearer ') {
         $token = trim(substr($header, 7));
-        return $token !== '' ? $token : null;
+        if ($token !== '') {
+            return $token;
+        }
+    }
+
+    if (isset($_GET['auth_token']) && $_GET['auth_token'] !== '') {
+        return (string) $_GET['auth_token'];
     }
 
     return null;
@@ -66,9 +77,9 @@ function requireAuth()
  * Require the authenticated user to have one of the given roles.
  *
  * @param string|array $roles A single role string or an array of role strings.
- *                             (PHP 7.4 has no union type hints, so no type
- *                             declaration is used here - validated at runtime
- *                             via (array) cast below.)
+ *                             (No type declaration here for broad PHP
+ *                             version compatibility — validated at
+ *                             runtime via the (array) cast below.)
  */
 function requireRole($roles)
 {
