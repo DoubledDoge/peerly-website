@@ -14,16 +14,16 @@ CREATE TABLE IF NOT EXISTS `users`
     `is_active`     BOOLEAN NOT NULL DEFAULT 1,
     `created_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP on
-                    UPDATE CURRENT_TIMESTAMP,
+    UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     UNIQUE KEY `uq_users_email` (`email`),
     KEY `idx_users_role` (`role`),
     KEY `idx_users_is_active` (`is_active`)
-)
-engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    )
+    engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- SESSIONS
--CREATE TABLE IF NOT EXISTS `sessions`
+CREATE TABLE IF NOT EXISTS `sessions`
 (
     `id`         INT UNSIGNED NOT NULL auto_increment,
     `user_id`    INT UNSIGNED NOT NULL,
@@ -35,9 +35,9 @@ engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     KEY `idx_sessions_user` (`user_id`),
     KEY `idx_sessions_expires` (`expires_at`),
     CONSTRAINT `fk_sessions_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON
-    DELETE CASCADE
-)
-engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                                                                                        DELETE CASCADE
+    )
+    engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- LISTINGS
 CREATE TABLE IF NOT EXISTS `listings`
@@ -52,17 +52,17 @@ CREATE TABLE IF NOT EXISTS `listings`
     `photo_url`     VARCHAR(2048),
     `created_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP on
-                    UPDATE CURRENT_TIMESTAMP,
+    UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `idx_listings_seller` (`seller_id`),
     KEY `idx_listings_status` (`status`),
     KEY `idx_listings_category` (`category`),
     KEY `idx_listings_created` (`created_at`),
     CONSTRAINT `fk_listings_seller` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`)
-    ON
-    DELETE CASCADE
-)
-engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                                                                ON
+                                                                    DELETE CASCADE
+    )
+    engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- REVIEWS
 CREATE TABLE IF NOT EXISTS `reviews`
@@ -78,15 +78,15 @@ CREATE TABLE IF NOT EXISTS `reviews`
     UNIQUE KEY `uq_reviews_buyer_listing` (`reviewer_id`, `listing_id`),
     KEY `idx_reviews_seller` (`seller_id`),
     CONSTRAINT `fk_reviews_reviewer` FOREIGN KEY (`reviewer_id`) REFERENCES `users` (`id`) ON
-    DELETE CASCADE,
+                                                                                               DELETE CASCADE,
     CONSTRAINT `fk_reviews_seller` FOREIGN KEY (`seller_id`) REFERENCES `users` (`id`)
-    ON
-    DELETE CASCADE,
+                                                                                           ON
+                                                                                               DELETE CASCADE,
     CONSTRAINT `fk_reviews_listing` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`id`)
-    ON
-    DELETE CASCADE
-)
-engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                                                                                           ON
+                                                                                               DELETE CASCADE
+    )
+    engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ORDERS
 CREATE TABLE IF NOT EXISTS `orders`
@@ -98,19 +98,19 @@ CREATE TABLE IF NOT EXISTS `orders`
     `price_at_sale` DECIMAL(10,2) NOT NULL,
     `created_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP on
-                    UPDATE CURRENT_TIMESTAMP,
+    UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `idx_orders_buyer` (`buyer_id`),
     KEY `idx_orders_listing` (`listing_id`),
     KEY `idx_orders_status` (`status`),
     CONSTRAINT `fk_orders_buyer` FOREIGN KEY (`buyer_id`) REFERENCES `users` (`id`)
-    ON
-    DELETE CASCADE,
+                                                                ON
+                                                                    DELETE CASCADE,
     CONSTRAINT `fk_orders_listing` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`id`)
-    ON
-    DELETE CASCADE
-)
-engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                                                                ON
+                                                                    DELETE CASCADE
+    )
+    engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- REPORTS
 CREATE TABLE IF NOT EXISTS `reports`
@@ -124,19 +124,19 @@ CREATE TABLE IF NOT EXISTS `reports`
     `resolved_by`   INT UNSIGNED DEFAULT NULL,
     `created_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP on
-                    UPDATE CURRENT_TIMESTAMP,
+    UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     KEY `idx_reports_reporter` (`reporter_id`),
     KEY `idx_reports_listing` (`listing_id`),
     KEY `idx_reports_status` (`status`),
     CONSTRAINT `fk_reports_reporter` FOREIGN KEY (`reporter_id`) REFERENCES `users` (`id`)
-    ON
-    DELETE CASCADE,
+                                                                ON
+                                                                    DELETE CASCADE,
     CONSTRAINT `fk_reports_listing` FOREIGN KEY (`listing_id`) REFERENCES `listings` (`id`)
-    ON
-    DELETE CASCADE,
+                                                                ON
+                                                                    DELETE CASCADE,
     CONSTRAINT `fk_reports_resolver` FOREIGN KEY (`resolved_by`) REFERENCES `users` (`id`)
-    ON
-    DELETE SET NULL
-)
-engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                                                                ON
+                                                                    DELETE SET NULL
+    )
+    engine=innodb DEFAULT charset=utf8mb4 COLLATE=utf8mb4_unicode_ci;
