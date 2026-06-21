@@ -52,17 +52,15 @@ async function initAdminListingsTable() {
 							<div>
 								<a href="${url("/pages/listing-detail.html")}?id=${listing.id}"
 								   target="_blank"
-								   style="font-weight:500;color:var(--text-colour);text-decoration:none;">
+								   class="cell-strong">
 									${listing.title}
 								</a>
-								<div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem;">
-									ID: ${listing.id}
-								</div>
+								<div class="cell-muted">ID: ${listing.id}</div>
 							</div>
 						</div>
 					</td>
 					<td>${seller}</td>
-					<td style="font-weight:600;">${price}</td>
+					<td class="cell-strong">${price}</td>
 					<td>
 						<span class="status-badge ${listing.status}">${listing.status}</span>
 					</td>

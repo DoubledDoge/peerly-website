@@ -60,6 +60,7 @@ export function renderListingCard(listing) {
 					? `
 				<button
 					class="btn btn-primary btn-sm listing-card_add-btn"
+					style="text-align: center;"
 					data-listing-id="${listing.id}"
 					aria-label="Add ${listing.title} to cart"
 				>
@@ -67,7 +68,7 @@ export function renderListingCard(listing) {
 				</button>
 			`
 					: `
-				<button class="btn btn-sm listing-card_sold-btn" disabled>Sold</button>
+				<button class="btn btn-sm listing-card_sold-btn" style="text-align: center;" disabled>Sold</button>
 			`
 			}
 		</article>

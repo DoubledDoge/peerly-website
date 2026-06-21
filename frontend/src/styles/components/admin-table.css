@@ -1,5 +1,13 @@
-﻿.admin-table {
+﻿.admin-table-wrapper {
 	width: 100%;
+	max-width: 75rem;
+	margin-inline: auto;
+	overflow-x: auto;
+}
+
+.admin-table {
+	width: 100%;
+	min-width: 640px;
 	border-collapse: collapse;
 	margin-top: 2rem;
 	background-color: var(--surface);
@@ -7,20 +15,64 @@
 	border-radius: var(--radius-lg);
 	overflow: hidden;
 
+	th,
+	td {
+		padding: 1.25rem 1.5rem;
+		text-align: left;
+		border-bottom: 1px solid var(--border-subtle);
+		font-size: 0.95rem;
+		vertical-align: middle;
+	}
+
 	th {
 		background-color: var(--bg-subtle);
 		font-weight: 600;
 		color: var(--text-muted);
 		font-size: 0.85rem;
+		letter-spacing: 0.03em;
 		text-transform: uppercase;
 	}
 
-	th,
-	td {
-		padding: 1.25rem 1rem;
-		text-align: left;
-		border-bottom: 1px solid var(--border-subtle);
-		font-size: 0.95rem;
-		vertical-align: middle;
+	tbody tr {
+		&:last-child td {
+			border-bottom: none;
+		}
+
+		&:hover {
+			background-color: var(--bg-subtle);
+		}
+	}
+
+	.cell-strong {
+		font-weight: 600;
+		color: var(--text-colour);
+	}
+
+	.cell-muted {
+		color: var(--text-muted);
+		font-size: 0.85rem;
+	}
+
+	.cell-link {
+		color: var(--primary-accent);
+		text-decoration: underline;
+		text-decoration-color: var(--primary-subtle);
+		transition: text-decoration-color 150ms ease;
+
+		&:hover {
+			text-decoration-color: var(--primary-accent);
+		}
+	}
+
+	.cell-truncate {
+		max-width: 320px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.cell-actions {
+		display: flex;
+		gap: 0.5rem;
 	}
 }

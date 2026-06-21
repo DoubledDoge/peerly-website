@@ -42,18 +42,18 @@ async function initOrdersTable() {
 			return `
 				<tr>
 					<td>
-						<div style="font-weight:600;color:var(--text-colour);">#${order.id}</div>
-						<div style="font-size:0.75rem;color:var(--text-muted);">${orderDate}</div>
+						<div class="cell-strong">#${order.id}</div>
+						<div class="cell-muted">${orderDate}</div>
 					</td>
 					<td>${order.buyer_name ?? order.buyer_email ?? "Unknown"}</td>
 					<td>
-						<a href="${url("/pages/listing-detail.html")}?id=${order.listing_id}""
+						<a href="${url("/pages/listing-detail.html")}?id=${order.listing_id}"
 						   target="_blank"
-						   style="color:var(--primary-accent);text-decoration:underline;">
+						   class="cell-link">
 							${order.listing_title ?? `Listing #${order.listing_id}`}
 						</a>
 					</td>
-					<td style="font-weight:600;">${formattedTotal}</td>
+					<td class="cell-strong">${formattedTotal}</td>
 					<td>
 						<select class="status-select" data-id="${order.id}">
 							<option value="pending"   ${order.status === "pending" ? "selected" : ""}>Pending</option>

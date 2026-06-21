@@ -23,10 +23,12 @@
         `;
 
 		container.innerHTML = `
-            <table class="admin-table">
-                ${thead}
-                ${tbody}
-            </table>
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    ${thead}
+                    ${tbody}
+                </table>
+            </div>
         `;
 	},
 };

@@ -10,6 +10,7 @@
 		align-items: center;
 		height: var(--header-height);
 		padding-inline: var(--padding-x);
+		gap: 1rem;
 	}
 
 	.navbar-logo {
@@ -43,8 +44,11 @@
 	ul {
 		display: flex;
 		flex-direction: row;
-		gap: clamp(1rem, 2.5vw, 2rem);
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: clamp(0.75rem, 2vw, 2rem);
 		font-size: 1rem;
+		min-width: 0;
 
 		a {
 			font-weight: 500;
@@ -64,7 +68,9 @@
 	menu {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		flex-wrap: nowrap;
+		flex-shrink: 0;
+		gap: 0.375rem;
 		padding: 0;
 		margin: 0;
 		list-style: none;
@@ -74,17 +80,20 @@
 	.mobile-toggle {
 		display: none;
 	}
-}
 
-.site-navbar .navbar-logo:hover {
-	opacity: 0.8;
-}
+	.navbar-logo:hover {
+		opacity: 0.8;
+	}
 
-.site-navbar ul a:hover {
-	color: var(--primary-hover);
+	ul a:hover {
+		color: var(--primary-hover);
+	}
 }
 
 button.theme-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	min-width: 2.5rem;
 	min-height: 2.5rem;
 	padding: 0.5rem;
@@ -112,11 +121,11 @@ button.theme-toggle {
 		width: 1.25rem;
 		height: 1.25rem;
 	}
-}
 
-button.theme-toggle:hover {
-	background-color: var(--bg-muted);
-	border-color: var(--border-colour);
+	&:hover {
+		background-color: var(--bg-muted);
+		border-color: var(--border-colour);
+	}
 }
 
 button[aria-controls="primary-navigation"] {
@@ -149,7 +158,6 @@ button[aria-controls="primary-navigation"] {
 
 .nav-icon-btn {
 	display: flex;
-	align-items: center;
 	justify-content: center;
 	min-width: 2.5rem;
 	min-height: 2.5rem;
@@ -159,6 +167,7 @@ button[aria-controls="primary-navigation"] {
 	border-radius: var(--radius-md);
 	color: var(--text-colour);
 	cursor: pointer;
+	flex-shrink: 0;
 	transition:
 		background-color 200ms ease,
 		border-color 200ms ease;
@@ -195,10 +204,14 @@ button[aria-controls="primary-navigation"] {
 	min-height: 70px;
 }
 
-@media (width <= 767px) {
+@media (width <= 900px) {
 	.site-navbar {
 		.mobile-toggle {
 			display: flex;
+		}
+
+		nav {
+			display: block;
 		}
 
 		ul {
@@ -230,17 +243,21 @@ button[aria-controls="primary-navigation"] {
 	}
 }
 
-@media (width >= 768px) {
+@media (width >= 901px) {
 	.site-navbar > .container {
 		display: grid;
-		grid-template-columns: 1fr auto 1fr;
+		grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
 		gap: clamp(0.5rem, 2vw, 2rem);
+		align-items: center;
 
 		.navbar-logo {
 			justify-self: start;
+			min-width: 0;
 		}
-		ul {
+		nav {
 			justify-self: center;
+			min-width: 0;
+			overflow: hidden;
 		}
 		menu {
 			justify-self: end;

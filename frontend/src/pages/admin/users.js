@@ -43,10 +43,10 @@ async function initUsersTable() {
 
 			return `
 				<tr style="${isInactive ? "opacity:0.5;" : ""}">
-					<td style="font-weight:500;">${user.name}</td>
+					<td class="cell-strong">${user.name}</td>
 					<td>${user.email}</td>
 					<td>${user.city || "—"}</td>
-					<td style="color:var(--text-muted);">${joinDate}</td>
+					<td class="cell-muted">${joinDate}</td>
 					<td>
 						<select class="role-select" data-id="${user.id}" ${isSelf ? "disabled" : ""}>
 							<option value="buyer"     ${user.role === "buyer" ? "selected" : ""}>Buyer</option>
@@ -58,7 +58,7 @@ async function initUsersTable() {
 					<td>
 						${
 							isSelf
-								? `<span style="color:var(--text-muted);font-size:0.875rem;">You</span>`
+								? `<span class="cell-muted">You</span>`
 								: isInactive
 									? `<button class="btn btn-outline btn-sm btn-unban"
 									   data-id="${user.id}"

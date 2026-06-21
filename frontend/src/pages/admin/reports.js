@@ -34,16 +34,15 @@ async function initReportsTable() {
 
 			return `
 				<tr>
-					<td style="font-weight:500;">
+					<td class="cell-strong">
 						<a href="${url("/pages/listing-detail.html")}?id=${report.listing_id}"
 						   target="_blank"
-						   style="color:var(--primary-accent);text-decoration:underline;">
+						   class="cell-link">
 							${report.listing_title ?? `Listing #${report.listing_id}`}
 						</a>
 					</td>
 					<td>${report.reporter_name ?? report.reporter_email ?? "Unknown"}</td>
-					<td style="max-width:300px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"
-					    title="${report.reason}">
+					<td class="cell-truncate" title="${report.reason}">
 						${report.reason}
 					</td>
 					<td>
@@ -52,12 +51,11 @@ async function initReportsTable() {
 							${report.status}
 						</span>
 					</td>
-					<td class="report-actions">
+					<td class="cell-actions">
 						${
 							isOpen
 								? `<button class="btn btn-outline btn-sm btn-dismiss"
-								   data-report-id="${report.id}"
-								   style="margin-right:0.5rem;">
+								   data-report-id="${report.id}">
 								   Dismiss
 							   </button>
 							   <button class="btn btn-sm btn-resolve-delete"
@@ -66,9 +64,7 @@ async function initReportsTable() {
 								   style="background-color:var(--color-error);border-color:var(--color-error);color:#fff;">
 								   Remove Listing
 							   </button>`
-								: `<span style="color:var(--text-muted);font-size:0.875rem;">
-								   ${report.status}
-							   </span>`
+								: `<span class="cell-muted">${report.status}</span>`
 						}
 					</td>
 				</tr>
