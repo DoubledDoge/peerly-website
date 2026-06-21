@@ -19,7 +19,6 @@ A peer-to-peer marketplace built for people, not businesses. Buy and sell direct
 - [Local Development](#local-development)
 - [Database Setup](#database-setup)
 - [Environment Variables](#environment-variables)
-- [PHP Version Constraint](#php-version-constraint)
 
 ---
 
