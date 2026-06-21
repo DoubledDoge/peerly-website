@@ -1,6 +1,8 @@
+import trashIconUrl from "@assets/icons/trash.svg?raw";
 import placeholderUrl from "@assets/placeholder.png";
 import { renderStarRating } from "@components/star-rating.js";
 import { showToast } from "@components/toast.js";
+import { authService } from "@services/auth-service.js";
 import { cartService } from "@services/cart-service.js";
 import { currencyService } from "@services/currency-service.js";
 import { listingsService } from "@services/listings-service.js";
@@ -11,52 +13,63 @@ export function renderListingCard(listing) {
 	const photoSrc = listing.photo_url || placeholderUrl;
 	const location = listing.seller_city || "";
 
+	const currentUser = authService.getUser();
+	const isOwner =
+		currentUser && String(currentUser.id) === String(listing.seller_id);
+
 	return `
-		<article class="listing-card ${isSold ? "listing-card--sold" : ""}"
+		<article class="listing-card ${isSold ? "listing-card_sold" : ""}"
 		         data-id="${listing.id}">
-			<a href="${url("/pages/listing-detail.html")}?id=${listing.id}" class="listing-card__image-link">
+			${
+				isOwner
+					? `
+				<button
+					class="listing-card_delete"
+					data-listing-id="${listing.id}"
+					aria-label="Delete ${listing.title}"
+					title="Delete listing"
+				>
+					${trashIconUrl}
+				</button>
+			`
+					: ""
+			}
+
+			<a href="${url("/pages/listing-detail.html")}?id=${listing.id}" class="listing-card_media">
 				<img
 					src="${photoSrc}"
 					alt="${listing.title}"
-					class="listing-card__image"
 					loading="lazy"
 				/>
-				${isSold ? `<span class="listing-card__badge listing-card__badge--sold">Sold</span>` : ""}
+				${isSold ? `<span class="listing-card_badge">Sold</span>` : ""}
 			</a>
 
-			<div class="listing-card__body">
-				<span class="listing-card__category">${listing.category}</span>
+			<a href="${url("/pages/listing-detail.html")}?id=${listing.id}" class="listing-card_body">
+				<h3 class="listing-card_title">${listing.title}</h3>
+				<p class="listing-card_price">${currencyService.formatPrice(listing.price)}</p>
 
-				<h3 class="listing-card__title">
-					<a href="${url("/pages/listing-detail.html")}?id=${listing.id}">${listing.title}</a>
-				</h3>
-
-				<p class="listing-card__price">
-					${currencyService.formatPrice(listing.price)}
-				</p>
-
-				<div class="listing-card__seller">
-					<span class="listing-card__seller-name">${listing.seller_name ?? "Unknown"}</span>
-					${location ? `<span class="listing-card__location">${location}</span>` : ""}
+				<div class="listing-card_seller">
+					<span class="listing-card_seller-name">${listing.seller_name ?? "Unknown"}</span>
+					${location ? `<span class="listing-card_location">${location}</span>` : ""}
 					${renderStarRating(listing.seller_rating ?? 0)}
 				</div>
+			</a>
 
-				${
-					!isSold
-						? `
-					<button
-						class="btn btn-primary btn-sm listing-card__add-btn"
-						data-listing-id="${listing.id}"
-						aria-label="Add ${listing.title} to cart"
-					>
-						Add to Cart
-					</button>
-				`
-						: `
-					<button class="btn btn-sm" disabled>Sold</button>
-				`
-				}
-			</div>
+			${
+				!isSold
+					? `
+				<button
+					class="btn btn-primary btn-sm listing-card_add-btn"
+					data-listing-id="${listing.id}"
+					aria-label="Add ${listing.title} to cart"
+				>
+					Add to Cart
+				</button>
+			`
+					: `
+				<button class="btn btn-sm listing-card_sold-btn" disabled>Sold</button>
+			`
+			}
 		</article>
 	`;
 }
@@ -75,7 +88,15 @@ export function renderListingGrid(containerId, listings) {
 	container.innerHTML = listings.map(renderListingCard).join("");
 
 	container.addEventListener("click", (e) => {
-		const btn = e.target.closest(".listing-card__add-btn");
+		const deleteBtn = e.target.closest(".listing-card_delete");
+		if (deleteBtn) {
+			e.preventDefault();
+			e.stopPropagation();
+			handleDeleteListing(deleteBtn, listings).then();
+			return;
+		}
+
+		const btn = e.target.closest(".listing-card_add-btn");
 		if (!btn) return;
 
 		const listingId = btn.dataset.listingId;
@@ -96,6 +117,25 @@ export function renderListingGrid(containerId, listings) {
 			showToast("This item is already in your cart.", "error");
 		}
 	});
+}
+
+async function handleDeleteListing(deleteBtn, listings) {
+	const listingId = deleteBtn.dataset.listingId;
+	const listing = listings.find((l) => String(l.id) === String(listingId));
+	if (!listing) return;
+
+	if (!confirm(`Delete "${listing.title}"? This can't be undone.`)) return;
+
+	deleteBtn.disabled = true;
+
+	try {
+		await listingsService.deleteListing(listingId);
+		deleteBtn.closest(".listing-card")?.remove();
+		showToast("Listing deleted.", "success");
+	} catch (error) {
+		showToast(error.message || "Could not delete listing.", "error");
+		deleteBtn.disabled = false;
+	}
 }
 
 export async function loadFeaturedListings() {
